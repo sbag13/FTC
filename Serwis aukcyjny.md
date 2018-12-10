@@ -124,7 +124,13 @@ PATCH
 {
     **fields_to_modify...
 }
+
+user may modyfi:
+- price, amount, description - for buynow type offers
+- price, description - for auction type offers
+
 202 - Accpepted
+400 - Bad Request or bad field
 403 - Unauthorized
 404 - Offer with given id not found
 
