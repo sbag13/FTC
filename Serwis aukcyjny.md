@@ -179,6 +179,7 @@ POST
 	409 - {"max_amout": <amount of available items>}
 	409 - {"status": "expired"}
 	409 - {"conflict": "unable to order own items"}
+	409 - {"conflict": "you can not bid on the auction you win"}
 500 - internal server error
 503 - server unavaiable (reason in description)
 ```
