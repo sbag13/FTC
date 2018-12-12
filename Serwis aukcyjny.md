@@ -1,6 +1,6 @@
 # Serwis aukcyjny
 
-## Funkcjonalności
+## Funkcje serwisu
 
 - Rejestracja
 - Logowanie
@@ -178,6 +178,7 @@ POST
 	409 - {"minimal_bid": <minimal bid for auction>}
 	409 - {"max_amout": <amount of available items>}
 	409 - {"status": "expired"}
+	409 - {"conflict": "unable to order own items"}
 500 - internal server error
 503 - server unavaiable (reason in description)
 ```
