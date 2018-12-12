@@ -149,7 +149,8 @@ no payload
     description: string,
     status: [active / expired],
     last_bid: float,
-    customer_id: int
+    customer_id: int,
+    expiration_ts: <timestamp>
 }
 200 - details of buynow
 {	
