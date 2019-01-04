@@ -1,6 +1,6 @@
 use crate::schema::users;
 
-#[derive(Serialize, Insertable)]
+#[derive(Serialize, Insertable, Deserialize)]
 #[table_name="users"]
 pub struct InsertableUser {
     pub mail: String,

@@ -1,20 +1,40 @@
-use rocket_contrib::json::Json;
-use crate::db_queries::DbConn;
 use crate::db_queries::insert_user;
+use crate::db_queries::DbConn;
 use crate::db_structs::InsertableUser;
+use rocket::http::Status;
+use rocket::response::status::Custom;
+use rocket_contrib::json::Json;
+use validator::validate_email;
 
-#[get("/registration")]
-pub fn registration(conn: DbConn) -> Json<InsertableUser> {
-    //TODO get data from json
-    let user = InsertableUser{
-        mail: String::from("mmmm@mmm.pl"),
-        password: String::from("password")
-    };
+const REASON_USER_EXISTS: &'static str = "User already exists!";
+const REASON_BAD_EMAIL: &'static str = "Invalid email!";
 
-    //TODO validate json
+#[post("/registration", format = "json", data = "<user>")]
+pub fn registration_post(
+    user: Json<InsertableUser>,
+    conn: DbConn,
+) -> Result<Custom<Json<InsertableUser>>, Status> {
+    if validate_email(&user.mail) == false {
+        return Err(Status::new(400, REASON_BAD_EMAIL));
+    }
 
     match insert_user(&conn, &user) {
-        Ok(_row_count) => return Json(user),
-        _ => return Json(user), //TODO faile code
-    }    
+        Ok(_row_count) => return Ok(Custom(Status::Created, user)),
+        Err(_err) => return Err(Status::new(409, REASON_USER_EXISTS)),
+    }
+}
+
+#[get("/registration")]
+pub fn registration_get() -> Status {
+    Status::MethodNotAllowed
+}
+
+#[put("/registration")]
+pub fn registration_put() -> Status {
+    Status::MethodNotAllowed
+}
+
+#[delete("/registration")]
+pub fn registration_delete() -> Status {
+    Status::MethodNotAllowed
 }

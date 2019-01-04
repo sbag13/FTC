@@ -8,16 +8,17 @@ extern crate rocket;
 extern crate rocket_contrib;
 #[macro_use]
 extern crate diesel;
+extern crate validator;
 
-mod schema;
 mod db_queries;
-mod session;
 mod db_structs;
+mod schema;
+mod session;
 
 fn main() {
     println!("test");
     rocket::ignite()
         .attach(db_queries::DbConn::fairing())
-        .mount("/", routes![session::registration])
+        .mount("/", routes![session::registration_post, session::registration_get, session::registration_delete, session::registration_put])
         .launch();
 }
