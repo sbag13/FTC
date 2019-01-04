@@ -1,6 +1,5 @@
 table! {
-    users (id) {
-        id -> Nullable<Integer>,
+    users (mail) {
         mail -> Text,
         password -> Text,
     }

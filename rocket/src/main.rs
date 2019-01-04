@@ -8,6 +8,7 @@ extern crate rocket;
 extern crate rocket_contrib;
 #[macro_use]
 extern crate diesel;
+extern crate jsonwebtoken;
 extern crate validator;
 
 mod db_queries;
@@ -19,6 +20,18 @@ fn main() {
     println!("test");
     rocket::ignite()
         .attach(db_queries::DbConn::fairing())
-        .mount("/", routes![session::registration_post, session::registration_get, session::registration_delete, session::registration_put])
+        .mount(
+            "/",
+            routes![
+                session::registration_post,
+                session::registration_get,
+                session::registration_delete,
+                session::registration_put,
+                session::login_post,
+                session::login_get,
+                session::login_put,
+                session::login_delete
+            ],
+        )
         .launch();
 }
