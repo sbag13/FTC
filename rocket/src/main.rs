@@ -2,6 +2,7 @@
 
 #[macro_use]
 extern crate serde_derive;
+extern crate serde_json;
 #[macro_use]
 extern crate rocket;
 #[macro_use]
@@ -13,8 +14,8 @@ extern crate validator;
 
 mod db_queries;
 mod db_structs;
+mod endpoints;
 mod schema;
-mod session;
 
 fn main() {
     println!("test");
@@ -23,14 +24,15 @@ fn main() {
         .mount(
             "/",
             routes![
-                session::registration_post,
-                session::registration_get,
-                session::registration_delete,
-                session::registration_put,
-                session::login_post,
-                session::login_get,
-                session::login_put,
-                session::login_delete
+                endpoints::registration_post,
+                endpoints::registration_get,
+                endpoints::registration_delete,
+                endpoints::registration_put,
+                endpoints::login_post,
+                endpoints::login_get,
+                endpoints::login_put,
+                endpoints::login_delete,
+                endpoints::offer_post
             ],
         )
         .launch();

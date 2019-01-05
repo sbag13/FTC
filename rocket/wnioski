@@ -2,3 +2,4 @@ czym mają być opisy błędów
 co jak nie uda się sparsować jsona (ja mam 422)
 zły błąd method not allowed (405), rocket domyslnie wysyła 404
     za darmo jest delete, ale nie ma w specyfikacji
+forbidden przy offers post jest niepotrzebny
