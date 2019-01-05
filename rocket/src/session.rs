@@ -3,13 +3,17 @@ use crate::db_queries::DbConn;
 use crate::db_queries::select_user_by_mail;
 use crate::db_structs::InsertableUser;
 use rocket::http::Status;
+use rocket::http::Cookies;
+use rocket::http::Cookie;
 use rocket::response::status::Custom;
 use rocket_contrib::json::Json;
 use validator::validate_email;
-use jsonwebtoken;
+use jsonwebtoken::Header;
+use jsonwebtoken::encode;
 
 const REASON_USER_EXISTS: &'static str = "User already exists!";
 const REASON_BAD_EMAIL: &'static str = "Invalid email!";
+const token_key: &'static str = "secret"; 
 
 //
 //
@@ -21,8 +25,15 @@ struct Claims {
     mail: String
 }
 
+fn generate_token(mail: &String) -> String {
+    let header = Header::default();
+    let claims = Claims {mail: mail.clone()};
+    return encode(&header, &claims, token_key.as_ref()).unwrap()
+}
+
 #[post("/login", format = "json", data = "<given_user>")]
 pub fn login_post(
+    mut cookies: Cookies,
     given_user: Json<InsertableUser>,
     conn: DbConn,
 ) -> Status {
@@ -33,13 +44,15 @@ pub fn login_post(
     match select_user_by_mail(&conn, &given_user.mail) {
         Ok(db_user) => {
             if db_user.password == given_user.password {
+                let token = generate_token(&given_user.mail);
+                cookies.add(Cookie::new("jwt", token));
                 return Status::Ok;
             }
             else {
                 return Status::Unauthorized;
             }
         }
-        Err(_err) => return Status::NotFound,  //TODO change
+        Err(_err) => return Status::NotFound,
     }
 }
 

@@ -1,5 +1,4 @@
 use diesel::insert_into;
-use diesel::select;
 use diesel::query_dsl::QueryDsl;
 use diesel::result::QueryResult;
 use diesel::RunQueryDsl;
