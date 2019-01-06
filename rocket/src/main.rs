@@ -32,7 +32,9 @@ fn main() {
                 endpoints::login_get,
                 endpoints::login_put,
                 endpoints::login_delete,
-                endpoints::offer_post
+                endpoints::offer_post,
+                endpoints::all_offers_get,
+                endpoints::my_offers_get
             ],
         )
         .launch();

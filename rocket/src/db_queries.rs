@@ -42,3 +42,13 @@ pub fn insert_buynow(
         Err(e) => return Err(e),
     }
 }
+
+pub fn get_all_auctions(conn :&diesel::SqliteConnection) -> QueryResult<Vec<Auction>> {
+    use crate::schema::auctions::dsl::*;
+    auctions.load(conn)
+}
+
+pub fn get_all_buynows(conn :&diesel::SqliteConnection) -> QueryResult<Vec<Buynow>> {
+    use crate::schema::buynows::dsl::*;
+    buynows.load(conn)
+}

@@ -3,3 +3,7 @@ co jak nie uda się sparsować jsona (ja mam 422)
 zły błąd method not allowed (405), rocket domyslnie wysyła 404
     za darmo jest delete, ale nie ma w specyfikacji
 forbidden przy offers post jest niepotrzebny
+offers get filtry niewyspecyfikowane (kolejność, czy musza byc?)
+created_by_me lepiej jak by było nullem
+get offers nie specyfikuje czy tylko id, czy cały json
+get offers powinno byc 404 zamiast 400 
