@@ -7,6 +7,7 @@ use rocket::request::LenientForm;
 use rocket::response::status::Custom;
 use rocket_contrib::json::Json;
 use validator::validate_email;
+use std::time::{UNIX_EPOCH, SystemTime};
 
 const REASON_USER_EXISTS: &'static str = "User already exists!";
 const REASON_BAD_EMAIL: &'static str = "Invalid email!";
@@ -308,8 +309,99 @@ pub fn offer_delete(conn: DbConn, cookies: Cookies, id: i32) -> Status {
 
     match db_queries::offer_delete(&conn, id) {
         Ok(_) => Status::Accepted,
-        Err(_) => Status::InternalServerError
+        Err(_) => Status::InternalServerError,
     }
+}
+
+#[get("/offers/<id>")]
+pub fn offer_get(conn: DbConn, id: i32) -> Result<Custom<String>, Status> {
+    let offer = match db_queries::get_offer_by_id(&conn, id) {
+        Ok(o) => o,
+        Err(_) => return Err(Status::NotFound),
+    };
+
+    if offer.type_.as_str() == "buynow" {
+        let result_json: json::JsonValue = object!(
+            "type" => offer.type_,
+            "description" => offer.description,
+            "price" => offer.price,
+            "amount" => offer.date_amount
+        );
+        return Ok(Custom(Status::Ok, result_json.dump()));
+    } else {
+        let result_json: json::JsonValue = object!(
+            "type" => offer.type_,
+            "description" => offer.description,
+            "price" => offer.price,
+            "date" => offer.date_amount
+        );
+
+        //TODO bid, last user mail
+        return Ok(Custom(Status::Ok, result_json.dump()));
+    }
+}
+
+#[post("/offers/<id>/buy", format = "json", data = "<param>")]
+pub fn offer_buy(
+    conn: DbConn,
+    param: String,
+    id: i32,
+    cookies: Cookies,
+) -> Result<Custom<String>, Status> {
+    println!("jestem");
+    let user_mail = match authorize(&cookies) {
+        Err(()) => return Err(Status::Unauthorized),
+        Ok(mail) => mail,
+    };
+
+    let param_json = match json::parse(param.as_str()) {
+        Ok(j) => j,
+        Err(_) => return Err(Status::BadRequest),
+    };
+
+    let offer = match db_queries::get_offer_by_id(&conn, id) {
+        Ok(o) => o,
+        Err(_) => return Err(Status::NotFound),
+    };
+
+    if offer.owner.as_str() == user_mail.as_str() {
+        let response = object!(
+            "conflict" => "unable to order own items"
+        );
+        return Ok(Custom(Status::Conflict, response.dump()));
+    }
+
+    if offer.type_.as_str() == "buynow" {
+        if !param_json.has_key("amount") {
+            return Err(Status::BadRequest);
+        }
+        let got_amount = match param_json["amount"].as_i32() {
+            Some(a) => a,
+            None => return Err(Status::BadRequest),
+        };
+        if got_amount > offer.date_amount {
+            let response = object!(
+                "max_amout" => offer.date_amount
+            );
+            return Ok(Custom(Status::Conflict, response.dump()));
+        }
+
+        //TODO buying
+    }
+    else if offer.type_.as_str() == "auction" {
+        let start = SystemTime::now();
+        let since_the_epoch = start.duration_since(UNIX_EPOCH).unwrap();
+        if (offer.date_amount as u64) < since_the_epoch.as_secs() {
+            let response = object!(
+                "status" => "expired"
+            );
+            return Ok(Custom(Status::Conflict, response.dump()));
+        }
+
+        //TODO bidding
+    }
+
+    Err(Status::Ok)
 }
 
 //
