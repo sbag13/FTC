@@ -6,14 +6,10 @@ CREATE TABLE users (
 
 CREATE TABLE offers (
     id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    owner VARCHAR NOT NULL,
     type VARCHAR NOT NULL,
     description TEXT NOT NULL,
     price REAL NOT NULL,
-    date_amount INTEGER NOT NULL
+    date_amount INTEGER NOT NULL,
+    FOREIGN KEY(owner) REFERENCES users(mail)
 );
-
-CREATE TABLE owners (
-    mail VARCHAR NOT NULL,
-    id INTEGER NOT NULL,
-    PRIMARY KEY (mail, id)
-)

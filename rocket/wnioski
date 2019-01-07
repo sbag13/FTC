@@ -7,3 +7,4 @@ offers get filtry niewyspecyfikowane (kolejność, czy musza byc?)
 created_by_me lepiej jak by było nullem
 get offers nie specyfikuje czy tylko id, czy cały json
 get offers powinno byc 404 zamiast 400 
+czy tylko zalogowani mogą listowac oferty

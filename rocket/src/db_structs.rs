@@ -11,6 +11,7 @@ pub struct InsertableUser {
 #[table_name = "offers"]
 pub struct InsertableOffer {
     pub type_: String,
+    pub owner: String,
     pub description: String,
     pub price: f32,
     pub date_amount: i32,
@@ -19,6 +20,7 @@ pub struct InsertableOffer {
 #[derive(Serialize, AsChangeset, Deserialize, Queryable, Debug)]
 pub struct Offer {
     pub id: i32,
+    pub owner: String,
     pub type_: String,
     pub description: String,
     pub price: f32,
@@ -53,8 +55,10 @@ impl Offer {
         self.get_price() < max_price
     }
     pub fn filter_by_type(&self, got_type: &String) -> bool {
-        if got_type.as_str() == self.type_.as_str() { true }
-        else { false }
+        got_type.as_str() == self.type_.as_str()
+    }
+    pub fn is_owned(&self, user: &String) -> bool {
+        self.owner.as_str() == user.as_str() 
     }
 }
 

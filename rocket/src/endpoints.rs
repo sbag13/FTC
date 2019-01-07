@@ -83,6 +83,7 @@ fn handle_auction(
         return Err(Status::BadRequest);
     }
     let offer = InsertableOffer {
+        owner: user_mail,
         description: offer_json["description"].as_str().unwrap().to_string(),
         price: offer_json["price"].as_f64().unwrap() as f32,
         date_amount: offer_json["date"].as_i64().unwrap() as i32,
@@ -93,8 +94,6 @@ fn handle_auction(
         Ok(db_id) => db_id,
         Err(_) => return Err(Status::InternalServerError),
     };
-
-    db_queries::insert_owner(conn, &user_mail, id);
 
     Ok(Custom(Status::Created, Json(OfferId { offer_id: id })))
 }
@@ -109,6 +108,7 @@ fn handle_buynow(
     }
 
     let offer = InsertableOffer {
+        owner: user_mail,
         description: offer_json["description"].as_str().unwrap().to_string(),
         price: offer_json["price"].as_f64().unwrap() as f32,
         date_amount: offer_json["amount"].as_i64().unwrap() as i32,
@@ -119,8 +119,6 @@ fn handle_buynow(
         Ok(db_id) => db_id,
         Err(_) => return Err(Status::InternalServerError),
     };
-
-    db_queries::insert_owner(conn, &user_mail, id);
 
     Ok(Custom(Status::Created, Json(OfferId { offer_id: id })))
 }
@@ -138,17 +136,24 @@ fn all_offers(
     price_max: Option<f32>,
     ext_type: Option<LenientForm<TypeExt>>,
     mine: bool,
+    cookies: Option<Cookies>
 ) -> Result<Custom<String>, Status> {
+    let mut user_mail: Option<String> = None;
+    if cookies.is_some() {
+        user_mail = match authorize(&cookies.unwrap()) {
+            Err(()) => return Err(Status::Unauthorized),
+            Ok(mail) => Some(mail),
+        };
+    }
     let got_type: Option<String> = match ext_type {
         Some(t) => Some(t.api_type.clone()),
         None => None
     };
     if validate_filter_params(&got_type).is_err() {
-        println!("here");
         return Err(Status::BadRequest);
     };
     let offers_jsons_strings =
-        get_filtered_offers(conn, contains, price_min, price_max, got_type, mine);
+        get_filtered_offers(conn, contains, price_min, price_max, got_type, user_mail);
     Ok(Custom(
         Status::Ok,
         offers_jsons_strings
@@ -159,13 +164,14 @@ fn all_offers(
 
 #[get("/offers?<contains>&<price_min>&<price_max>&created_by_me&<ext_type..>")]
 pub fn my_offers_get(
+    cookies: Cookies,
     conn: DbConn,
     contains: Option<String>,
     price_min: Option<f32>,
     price_max: Option<f32>,
     ext_type: Option<LenientForm<TypeExt>>,
 ) -> Result<Custom<String>, Status> {
-    all_offers(conn, contains, price_min, price_max, ext_type, true)
+    all_offers(conn, contains, price_min, price_max, ext_type, true, Some(cookies))
 }
 
 #[get("/offers?<contains>&<price_min>&<price_max>&<ext_type..>")]
@@ -176,11 +182,10 @@ pub fn all_offers_get(
     price_max: Option<f32>,
     ext_type: Option<LenientForm<TypeExt>>,
 ) -> Result<Custom<String>, Status> {
-    all_offers(conn, contains, price_min, price_max, ext_type, false)
+    all_offers(conn, contains, price_min, price_max, ext_type, false, None)
 }
 
 fn validate_filter_params(ext_type: &Option<String>) -> Result<(), ()> {
-    println!("{}", ext_type.clone().unwrap());
     if ext_type.is_some() {
         let got_type = ext_type.clone().unwrap();
         if got_type.as_str() != "auction"
@@ -189,7 +194,6 @@ fn validate_filter_params(ext_type: &Option<String>) -> Result<(), ()> {
             return Err(());
         }
     }
-    println!("valid");
     Ok(())
 }
 
@@ -199,7 +203,7 @@ fn get_filtered_offers(
     price_min: Option<f32>,
     price_max: Option<f32>,
     got_type: Option<String>,
-    mine: bool,
+    user: Option<String>,
 ) -> Vec<String> {
     let mut filters: Vec<Box<Fn(&Offer) -> bool>> = Vec::new();
 
@@ -221,6 +225,11 @@ fn get_filtered_offers(
     if got_type.is_some() {
         filters.push(Box::new(|offer: &Offer| -> bool {
             offer.filter_by_type(&got_type.clone().unwrap())
+        }));
+    }
+    if user.is_some() {
+        filters.push(Box::new(|offer: &Offer| -> bool {
+            offer.is_owned(&user.clone().unwrap())
         }));
     }
 

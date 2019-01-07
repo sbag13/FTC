@@ -36,8 +36,3 @@ pub fn get_all_offers(conn: &diesel::SqliteConnection) -> QueryResult<Vec<Offer>
     use crate::schema::offers::dsl::*;
     offers.load(conn)
 }
-
-pub fn insert_owner(conn: &diesel::SqliteConnection, user_mail: &String, offer_id: i32) -> QueryResult<usize> {
-    use crate::schema::owners::dsl::*;
-    insert_into(owners).values((mail.eq(user_mail), id.eq(offer_id))).execute(conn)
-}
