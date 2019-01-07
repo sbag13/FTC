@@ -8,103 +8,54 @@ pub struct InsertableUser {
 }
 
 #[derive(Serialize, Insertable, Deserialize, Queryable)]
-#[table_name = "auctions"]
-pub struct InsertableAuction {
+#[table_name = "offers"]
+pub struct InsertableOffer {
+    pub type_: String,
     pub description: String,
     pub price: f32,
-    pub date: i32,
+    pub date_amount: i32,
 }
 
 #[derive(Serialize, AsChangeset, Deserialize, Queryable, Debug)]
-pub struct Auction {
+pub struct Offer {
     pub id: i32,
+    pub type_: String,
     pub description: String,
     pub price: f32,
-    pub date: i32,
+    pub date_amount: i32,
 }
 
-impl DbOffer for Auction {
+impl Offer {
     fn get_description(&self) -> String {
         self.description.clone()
     }
     fn print(&self) {
         println!("{:?}", self);
     }
-    fn as_json(&self) -> String {
+    pub fn as_json(&self) -> String {
         json!({
-            "type": "auction",
+            "type": self.type_,
             "description": self.description,
             "price": self.price,
-            "date": self.date
+            "date": self.date_amount
         }).to_string()
     }
     fn get_price(&self) -> f32 {
         self.price
     }
-    fn is_type(&self, got_type: &str) -> bool {
-        if got_type == "auction" { true }
-        else { false }
-    }
-}
-
-#[derive(Serialize, AsChangeset, Deserialize, Queryable, Debug)]
-pub struct Buynow {
-    pub id: i32,
-    pub description: String,
-    pub price: f32,
-    pub amount: i32,
-}
-
-impl DbOffer for Buynow {
-    fn get_description(&self) -> String {
-        self.description.clone()
-    }
-    fn print(&self) {
-        println!("{:?}", self);
-    }
-    fn as_json(&self) -> String {
-        json!({
-            "type": "buynow",
-            "description": self.description,
-            "price": self.price,
-            "amount": self.amount
-        }).to_string()
-    }
-    fn get_price(&self) -> f32 {
-        self.price
-    }
-    fn is_type(&self, got_type: &str) -> bool {
-        if got_type == "buynow" { true }
-        else { false }
-    }
-}
-
-#[derive(Serialize, Insertable, Deserialize, Queryable)]
-#[table_name = "buynows"]
-pub struct InsertableBuynow {
-    pub description: String,
-    pub price: f32,
-    pub amount: i32,
-}
-
-pub trait DbOffer {
-    fn contains_description(&self, desc: &String) -> bool {
+    pub fn contains_description(&self, desc: &String) -> bool {
         self.get_description().contains(desc.as_str())
     }
-    fn filter_by_price_min(&self, min_price: f32) -> bool {
+    pub fn filter_by_price_min(&self, min_price: f32) -> bool {
         self.get_price() > min_price
     }
-    fn filter_by_price_max(&self, max_price: f32) -> bool {
+    pub fn filter_by_price_max(&self, max_price: f32) -> bool {
         self.get_price() < max_price
     }
-    fn filter_by_type(&self, got_type: &String) -> bool {
-        self.is_type(got_type.as_str())
+    pub fn filter_by_type(&self, got_type: &String) -> bool {
+        if got_type.as_str() == self.type_.as_str() { true }
+        else { false }
     }
-    fn is_type(&self, got_type: &str) -> bool;
-    fn get_description(&self) -> String;
-    fn print(&self);
-    fn as_json(&self) -> String;
-    fn get_price(&self) -> f32;
 }
 
 #[derive(Serialize)]

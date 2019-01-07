@@ -1,3 +1,3 @@
 DROP TABLE users;
-DROP TABLE auctions;
-DROP TABLE buynows;
+DROP TABLE offers;
+DROP TABLE owners;

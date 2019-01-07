@@ -4,16 +4,16 @@ CREATE TABLE users (
     password VARCHAR NOT NULL
 );
 
-CREATE TABLE auctions (
+CREATE TABLE offers (
     id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    type VARCHAR NOT NULL,
     description TEXT NOT NULL,
     price REAL NOT NULL,
-    date INTEGER NOT NULL
+    date_amount INTEGER NOT NULL
 );
 
-CREATE TABLE buynows (
-    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-    description TEXT NOT NULL,
-    price REAL NOT NULL,
-    amount INTEGER NOT NULL
-);
+CREATE TABLE owners (
+    mail VARCHAR NOT NULL,
+    id INTEGER NOT NULL,
+    PRIMARY KEY (mail, id)
+)

@@ -42,16 +42,6 @@ fn authorize(cookies: &Cookies) -> Result<String, ()> {
 // Offers
 //
 
-#[derive(FromForm)]
-pub struct Offer {
-    #[form(field = "type")]
-    api_type: String,
-    description: String,
-    price: f32,
-    date: u64,
-    amount: u32,
-}
-
 #[post("/offers", format = "json", data = "<offer>")]
 pub fn offer_post(
     cookies: Cookies,
@@ -73,7 +63,6 @@ pub fn offer_post(
         || offer_json["price"].is_null()
         || offer_json["type"].is_null()
     {
-        println!("NULL");
         return Err(Status::BadRequest);
     }
 
@@ -93,16 +82,19 @@ fn handle_auction(
     if offer_json["date"].is_null() {
         return Err(Status::BadRequest);
     }
-    let auction = InsertableAuction {
+    let offer = InsertableOffer {
         description: offer_json["description"].as_str().unwrap().to_string(),
         price: offer_json["price"].as_f64().unwrap() as f32,
-        date: offer_json["date"].as_i64().unwrap() as i32,
+        date_amount: offer_json["date"].as_i64().unwrap() as i32,
+        type_: offer_json["type"].as_str().unwrap().to_string()
     };
 
-    let id = match db_queries::insert_auction(conn, auction) {
+    let id = match db_queries::insert_offer(conn, offer) {
         Ok(db_id) => db_id,
         Err(_) => return Err(Status::InternalServerError),
     };
+
+    db_queries::insert_owner(conn, &user_mail, id);
 
     Ok(Custom(Status::Created, Json(OfferId { offer_id: id })))
 }
@@ -116,16 +108,19 @@ fn handle_buynow(
         return Err(Status::BadRequest);
     }
 
-    let buynow = InsertableBuynow {
+    let offer = InsertableOffer {
         description: offer_json["description"].as_str().unwrap().to_string(),
         price: offer_json["price"].as_f64().unwrap() as f32,
-        amount: offer_json["amount"].as_i64().unwrap() as i32,
+        date_amount: offer_json["amount"].as_i64().unwrap() as i32,
+        type_: offer_json["type"].as_str().unwrap().to_string()
     };
 
-    let id = match db_queries::insert_buynow(conn, buynow) {
+    let id = match db_queries::insert_offer(conn, offer) {
         Ok(db_id) => db_id,
         Err(_) => return Err(Status::InternalServerError),
     };
+
+    db_queries::insert_owner(conn, &user_mail, id);
 
     Ok(Custom(Status::Created, Json(OfferId { offer_id: id })))
 }
@@ -206,41 +201,33 @@ fn get_filtered_offers(
     got_type: Option<String>,
     mine: bool,
 ) -> Vec<String> {
-    let mut filters: Vec<Box<Fn(&Box<DbOffer>) -> bool>> = Vec::new();
+    let mut filters: Vec<Box<Fn(&Offer) -> bool>> = Vec::new();
 
     if contains_opt.is_some() {
-        filters.push(Box::new(|offer: &Box<DbOffer>| -> bool {
+        filters.push(Box::new(|offer: &Offer| -> bool {
             offer.contains_description(&contains_opt.clone().unwrap())
         }));
     }
     if price_min.is_some() {
-        filters.push(Box::new(|offer: &Box<DbOffer>| -> bool {
+        filters.push(Box::new(|offer: &Offer| -> bool {
             offer.filter_by_price_min(price_min.unwrap())
         }));
     }
     if price_max.is_some() {
-        filters.push(Box::new(|offer: &Box<DbOffer>| -> bool {
+        filters.push(Box::new(|offer: &Offer| -> bool {
             offer.filter_by_price_max(price_max.unwrap())
         }));
     }
     if got_type.is_some() {
-        filters.push(Box::new(move |offer: &Box<DbOffer>| -> bool {
+        filters.push(Box::new(|offer: &Offer| -> bool {
             offer.filter_by_type(&got_type.clone().unwrap())
         }));
     }
 
     //ineffective, could be filtered in db query, or cached
-    let mut offers: Vec<Box<DbOffer>> = Vec::new();
-    let auctions = db_queries::get_all_auctions(&conn).unwrap();
-    let buynows = db_queries::get_all_buynows(&conn).unwrap();
-    auctions
-        .into_iter()
-        .for_each(|auction| offers.push(Box::new(auction)));
-    buynows
-        .into_iter()
-        .for_each(|buynow| offers.push(Box::new(buynow)));
+    let mut offers: Vec<Offer> = db_queries::get_all_offers(&conn).unwrap();
 
-    let filtered_offers: Vec<Box<DbOffer>> = offers
+    let filtered_offers: Vec<Offer> = offers
         .into_iter()
         .filter(|offer| {
             filters.iter().all(|filter| filter(offer))

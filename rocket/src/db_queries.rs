@@ -21,34 +21,23 @@ pub fn select_user_by_mail(
     users.find(user_mail).get_result::<InsertableUser>(conn)
 }
 
-pub fn insert_auction(
+pub fn insert_offer(
     conn: &diesel::SqliteConnection,
-    auction: InsertableAuction,
+    offer: InsertableOffer,
 ) -> QueryResult<i32> {
-    use crate::schema::auctions::dsl::*;
-    match insert_into(auctions).values(auction).execute(conn) {
-        Ok(_) => auctions.select(id).order(id.desc()).first(conn),
+    use crate::schema::offers::dsl::*;
+    match insert_into(offers).values(offer).execute(conn) {
+        Ok(_) => offers.select(id).order(id.desc()).first(conn),
         Err(e) => return Err(e),
     }
 }
 
-pub fn insert_buynow(
-    conn: &diesel::SqliteConnection,
-    buynow: InsertableBuynow,
-) -> QueryResult<i32> {
-    use crate::schema::buynows::dsl::*;
-    match insert_into(buynows).values(buynow).execute(conn) {
-        Ok(_) => buynows.select(id).order(id.desc()).first(conn),
-        Err(e) => return Err(e),
-    }
+pub fn get_all_offers(conn: &diesel::SqliteConnection) -> QueryResult<Vec<Offer>> {
+    use crate::schema::offers::dsl::*;
+    offers.load(conn)
 }
 
-pub fn get_all_auctions(conn :&diesel::SqliteConnection) -> QueryResult<Vec<Auction>> {
-    use crate::schema::auctions::dsl::*;
-    auctions.load(conn)
-}
-
-pub fn get_all_buynows(conn :&diesel::SqliteConnection) -> QueryResult<Vec<Buynow>> {
-    use crate::schema::buynows::dsl::*;
-    buynows.load(conn)
+pub fn insert_owner(conn: &diesel::SqliteConnection, user_mail: &String, offer_id: i32) -> QueryResult<usize> {
+    use crate::schema::owners::dsl::*;
+    insert_into(owners).values((mail.eq(user_mail), id.eq(offer_id))).execute(conn)
 }

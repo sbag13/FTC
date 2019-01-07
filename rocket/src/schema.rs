@@ -1,18 +1,18 @@
 table! {
-    auctions (id) {
+    offers (id) {
         id -> Integer,
+        #[sql_name = "type"]
+        type_ -> Text,
         description -> Text,
         price -> Float,
-        date -> Integer,
+        date_amount -> Integer,
     }
 }
 
 table! {
-    buynows (id) {
+    owners (mail, id) {
+        mail -> Text,
         id -> Integer,
-        description -> Text,
-        price -> Float,
-        amount -> Integer,
     }
 }
 
@@ -24,7 +24,7 @@ table! {
 }
 
 allow_tables_to_appear_in_same_query!(
-    auctions,
-    buynows,
+    offers,
+    owners,
     users,
 );
