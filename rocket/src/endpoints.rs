@@ -87,7 +87,7 @@ fn handle_auction(
         description: offer_json["description"].as_str().unwrap().to_string(),
         price: offer_json["price"].as_f64().unwrap() as f32,
         date_amount: offer_json["date"].as_i64().unwrap() as i32,
-        type_: offer_json["type"].as_str().unwrap().to_string()
+        type_: offer_json["type"].as_str().unwrap().to_string(),
     };
 
     let id = match db_queries::insert_offer(conn, offer) {
@@ -112,7 +112,7 @@ fn handle_buynow(
         description: offer_json["description"].as_str().unwrap().to_string(),
         price: offer_json["price"].as_f64().unwrap() as f32,
         date_amount: offer_json["amount"].as_i64().unwrap() as i32,
-        type_: offer_json["type"].as_str().unwrap().to_string()
+        type_: offer_json["type"].as_str().unwrap().to_string(),
     };
 
     let id = match db_queries::insert_offer(conn, offer) {
@@ -136,7 +136,7 @@ fn all_offers(
     price_max: Option<f32>,
     ext_type: Option<LenientForm<TypeExt>>,
     mine: bool,
-    cookies: Option<Cookies>
+    cookies: Option<Cookies>,
 ) -> Result<Custom<String>, Status> {
     let mut user_mail: Option<String> = None;
     if cookies.is_some() {
@@ -147,7 +147,7 @@ fn all_offers(
     }
     let got_type: Option<String> = match ext_type {
         Some(t) => Some(t.api_type.clone()),
-        None => None
+        None => None,
     };
     if validate_filter_params(&got_type).is_err() {
         return Err(Status::BadRequest);
@@ -171,7 +171,15 @@ pub fn my_offers_get(
     price_max: Option<f32>,
     ext_type: Option<LenientForm<TypeExt>>,
 ) -> Result<Custom<String>, Status> {
-    all_offers(conn, contains, price_min, price_max, ext_type, true, Some(cookies))
+    all_offers(
+        conn,
+        contains,
+        price_min,
+        price_max,
+        ext_type,
+        true,
+        Some(cookies),
+    )
 }
 
 #[get("/offers?<contains>&<price_min>&<price_max>&<ext_type..>")]
@@ -188,9 +196,7 @@ pub fn all_offers_get(
 fn validate_filter_params(ext_type: &Option<String>) -> Result<(), ()> {
     if ext_type.is_some() {
         let got_type = ext_type.clone().unwrap();
-        if got_type.as_str() != "auction"
-            && got_type.as_str() != "buynow"
-        {
+        if got_type.as_str() != "auction" && got_type.as_str() != "buynow" {
             return Err(());
         }
     }
@@ -238,12 +244,50 @@ fn get_filtered_offers(
 
     let filtered_offers: Vec<Offer> = offers
         .into_iter()
-        .filter(|offer| {
-            filters.iter().all(|filter| filter(offer))
-        })
+        .filter(|offer| filters.iter().all(|filter| filter(offer)))
         .collect();
 
     filtered_offers.iter().map(|o| o.as_json()).collect()
+}
+
+#[patch("/offers/<id>", format = "json", data = "<params>")]
+pub fn offer_patch(conn: DbConn, cookies: Cookies, id: i32, params: String) -> Status {
+    let user_mail = match authorize(&cookies) {
+        Err(()) => return Status::Unauthorized,
+        Ok(mail) => mail,
+    };
+
+    let mut offer = match db_queries::get_offer_by_id(&conn, id) {
+        Ok(o) => o,
+        Err(_) => return Status::NotFound,
+    };
+
+    if offer.owner.as_str() != user_mail.as_str() {
+        return Status::Unauthorized;
+    }
+
+    let params_json =  match json::parse(params.clone().as_str()) {
+        Ok(j) => j,
+        Err(_) => return Status::BadRequest,
+    };   
+
+    if params_json["price"].as_f64().is_some() {
+        offer.price = params_json["price"].as_f64().unwrap() as f32;
+    }
+    if params_json["description"].as_str().is_some() {
+        offer.description = params_json["description"].as_str().unwrap().to_owned();
+    }
+    if params_json["amount"].as_i64().is_some() {
+        if offer.type_.as_str() == "auction" {
+            return Status::BadRequest;
+        }
+        offer.date_amount = params_json["amount"].as_i64().unwrap() as i32
+    }
+
+    match db_queries::update_offer(&conn, offer) {
+        Ok(_) => Status::Accepted,
+        Err(_) => Status::InternalServerError,
+    }    
 }
 
 //

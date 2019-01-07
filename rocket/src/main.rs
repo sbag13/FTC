@@ -11,6 +11,7 @@ extern crate rocket_contrib;
 extern crate diesel;
 extern crate jsonwebtoken;
 extern crate validator;
+extern crate json;
 
 mod db_queries;
 mod db_structs;
@@ -34,7 +35,8 @@ fn main() {
                 endpoints::login_delete,
                 endpoints::offer_post,
                 endpoints::all_offers_get,
-                endpoints::my_offers_get
+                endpoints::my_offers_get,
+                endpoints::offer_patch
             ],
         )
         .launch();
