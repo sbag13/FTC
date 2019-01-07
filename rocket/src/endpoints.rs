@@ -266,10 +266,10 @@ pub fn offer_patch(conn: DbConn, cookies: Cookies, id: i32, params: String) -> S
         return Status::Unauthorized;
     }
 
-    let params_json =  match json::parse(params.clone().as_str()) {
+    let params_json = match json::parse(params.clone().as_str()) {
         Ok(j) => j,
         Err(_) => return Status::BadRequest,
-    };   
+    };
 
     if params_json["price"].as_f64().is_some() {
         offer.price = params_json["price"].as_f64().unwrap() as f32;
@@ -287,7 +287,29 @@ pub fn offer_patch(conn: DbConn, cookies: Cookies, id: i32, params: String) -> S
     match db_queries::update_offer(&conn, offer) {
         Ok(_) => Status::Accepted,
         Err(_) => Status::InternalServerError,
-    }    
+    }
+}
+
+#[delete("/offers/<id>")]
+pub fn offer_delete(conn: DbConn, cookies: Cookies, id: i32) -> Status {
+    let user_mail = match authorize(&cookies) {
+        Err(()) => return Status::Unauthorized,
+        Ok(mail) => mail,
+    };
+
+    let offer = match db_queries::get_offer_by_id(&conn, id) {
+        Ok(o) => o,
+        Err(_) => return Status::NotFound,
+    };
+
+    if offer.owner.as_str() != user_mail.as_str() {
+        return Status::Unauthorized;
+    }
+
+    match db_queries::offer_delete(&conn, id) {
+        Ok(_) => Status::Accepted,
+        Err(_) => Status::InternalServerError
+    }
 }
 
 //

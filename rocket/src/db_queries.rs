@@ -1,5 +1,5 @@
 use crate::db_structs::*;
-use diesel::{insert_into, RunQueryDsl, update};
+use diesel::{insert_into, RunQueryDsl, update, delete};
 use diesel::prelude::*;
 use diesel::query_dsl::QueryDsl;
 use diesel::result::QueryResult;
@@ -45,4 +45,9 @@ pub fn get_offer_by_id(conn: &diesel::SqliteConnection, got_id: i32) -> QueryRes
 pub fn update_offer(conn: &diesel::SqliteConnection, offer: Offer) -> QueryResult<usize> {
     use crate::schema::offers::dsl::*;
     update(offers.find(offer.id)).set(&offer).execute(conn)
+}
+
+pub fn offer_delete(conn: &diesel::SqliteConnection, got_id: i32) -> QueryResult<usize> {
+    use crate::schema::offers::dsl::*;
+    delete(offers.find(got_id)).execute(conn)
 }

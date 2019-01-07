@@ -36,7 +36,8 @@ fn main() {
                 endpoints::offer_post,
                 endpoints::all_offers_get,
                 endpoints::my_offers_get,
-                endpoints::offer_patch
+                endpoints::offer_patch,
+                endpoints::offer_delete
             ],
         )
         .launch();
