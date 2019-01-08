@@ -6,8 +6,8 @@ use rocket::http::{Cookie, Cookies, Status};
 use rocket::request::LenientForm;
 use rocket::response::status::Custom;
 use rocket_contrib::json::Json;
+use std::time::{SystemTime, UNIX_EPOCH};
 use validator::validate_email;
-use std::time::{UNIX_EPOCH, SystemTime};
 
 const REASON_USER_EXISTS: &'static str = "User already exists!";
 const REASON_BAD_EMAIL: &'static str = "Invalid email!";
@@ -136,7 +136,6 @@ fn all_offers(
     price_min: Option<f32>,
     price_max: Option<f32>,
     ext_type: Option<LenientForm<TypeExt>>,
-    mine: bool,
     cookies: Option<Cookies>,
 ) -> Result<Custom<String>, Status> {
     let mut user_mail: Option<String> = None;
@@ -178,7 +177,6 @@ pub fn my_offers_get(
         price_min,
         price_max,
         ext_type,
-        true,
         Some(cookies),
     )
 }
@@ -191,7 +189,7 @@ pub fn all_offers_get(
     price_max: Option<f32>,
     ext_type: Option<LenientForm<TypeExt>>,
 ) -> Result<Custom<String>, Status> {
-    all_offers(conn, contains, price_min, price_max, ext_type, false, None)
+    all_offers(conn, contains, price_min, price_max, ext_type, None)
 }
 
 fn validate_filter_params(ext_type: &Option<String>) -> Result<(), ()> {
@@ -241,7 +239,7 @@ fn get_filtered_offers(
     }
 
     //ineffective, could be filtered in db query, or cached
-    let mut offers: Vec<Offer> = db_queries::get_all_offers(&conn).unwrap();
+    let offers: Vec<Offer> = db_queries::get_all_offers(&conn).unwrap();
 
     let filtered_offers: Vec<Offer> = offers
         .into_iter()
@@ -329,15 +327,38 @@ pub fn offer_get(conn: DbConn, id: i32) -> Result<Custom<String>, Status> {
         );
         return Ok(Custom(Status::Ok, result_json.dump()));
     } else {
-        let result_json: json::JsonValue = object!(
-            "type" => offer.type_,
-            "description" => offer.description,
-            "price" => offer.price,
-            "date" => offer.date_amount
-        );
-
-        //TODO bid, last user mail
-        return Ok(Custom(Status::Ok, result_json.dump()));
+        let start = SystemTime::now();
+        let since_the_epoch = start.duration_since(UNIX_EPOCH).unwrap();
+        let status = if since_the_epoch.as_secs() > offer.date_amount as u64 {
+            "expired"
+        } else {
+            "active"
+        };
+        match db_queries::get_transaction_by_offer_id(&conn, offer.id) {
+            Ok(transaction) => {
+                let result_json: json::JsonValue = object!(
+                    "type" => offer.type_,
+                    "description" => offer.description,
+                    "status" => status,
+                    "last_bid" => transaction.bid,
+                    "customer_id" => transaction.buyer,
+                    "expiration_ts" => offer.date_amount
+                );
+                return Ok(Custom(Status::Ok, result_json.dump()));
+            },
+            Err(diesel::result::Error::NotFound) => {
+                let result_json: json::JsonValue = object!(
+                    "type" => offer.type_,
+                    "description" => offer.description,
+                    "status" => status,
+                    "last_bid" => offer.price,
+                    "customer_id" => "",
+                    "expiration_ts" => offer.date_amount
+                );
+                return Ok(Custom(Status::Ok, result_json.dump()));
+            },
+            Err(_) => return Err(Status::NotFound),
+        };
     }
 }
 
@@ -348,7 +369,6 @@ pub fn offer_buy(
     id: i32,
     cookies: Cookies,
 ) -> Result<Custom<String>, Status> {
-    println!("jestem");
     let user_mail = match authorize(&cookies) {
         Err(()) => return Err(Status::Unauthorized),
         Ok(mail) => mail,
@@ -359,7 +379,7 @@ pub fn offer_buy(
         Err(_) => return Err(Status::BadRequest),
     };
 
-    let offer = match db_queries::get_offer_by_id(&conn, id) {
+    let mut offer = match db_queries::get_offer_by_id(&conn, id) {
         Ok(o) => o,
         Err(_) => return Err(Status::NotFound),
     };
@@ -379,6 +399,7 @@ pub fn offer_buy(
             Some(a) => a,
             None => return Err(Status::BadRequest),
         };
+
         if got_amount > offer.date_amount {
             let response = object!(
                 "max_amout" => offer.date_amount
@@ -386,9 +407,22 @@ pub fn offer_buy(
             return Ok(Custom(Status::Conflict, response.dump()));
         }
 
-        //TODO buying
-    }
-    else if offer.type_.as_str() == "auction" {
+        let transaction = InsertableTransaction {
+            offer_id: offer.id,
+            buyer: user_mail.clone(),
+            amount: Some(got_amount),
+            bid: None,
+        };
+        match db_queries::insert_transaction(&conn, transaction) {
+            Err(_) => return Err(Status::InternalServerError),
+            Ok(_) => (),
+        }
+        offer.date_amount -= got_amount;
+        match db_queries::update_offer(&conn, offer) {
+            Err(_) => return Err(Status::InternalServerError),
+            _ => (),
+        }
+    } else if offer.type_.as_str() == "auction" {
         let start = SystemTime::now();
         let since_the_epoch = start.duration_since(UNIX_EPOCH).unwrap();
         if (offer.date_amount as u64) < since_the_epoch.as_secs() {
@@ -398,7 +432,51 @@ pub fn offer_buy(
             return Ok(Custom(Status::Conflict, response.dump()));
         }
 
-        //TODO bidding
+        if !param_json.has_key("bid") {
+            return Err(Status::BadRequest);
+        }
+        let got_bid = match param_json["bid"].as_f32() {
+            Some(a) => a,
+            None => return Err(Status::BadRequest),
+        };
+
+        match db_queries::get_transaction_by_offer_id(&conn, offer.id) {
+            Ok(mut transaction) => {
+                if transaction.bid.unwrap() >= got_bid {
+                    let response = object! {
+                        "minimal_bid" => transaction.bid
+                    };
+                    return Ok(Custom(Status::Conflict, response.dump()));
+                }
+
+                transaction.bid = Some(got_bid);
+                transaction.buyer = user_mail;
+                match db_queries::update_transaction(&conn, transaction) {
+                    Err(_) => return Err(Status::InternalServerError),
+                    _ => (),
+                }
+            }
+            Err(diesel::result::Error::NotFound) => {
+                if got_bid < offer.price {
+                    let response = object! {
+                        "minimal_bid" => offer.price
+                    };
+                    return Ok(Custom(Status::Conflict, response.dump()));
+                }
+
+                let transaction = InsertableTransaction {
+                    offer_id: offer.id,
+                    buyer: user_mail.clone(),
+                    amount: None,
+                    bid: Some(got_bid),
+                };
+                match db_queries::insert_transaction(&conn, transaction) {
+                    Err(_) => return Err(Status::InternalServerError),
+                    _ => (),
+                };
+            }
+            _ => return Err(Status::InternalServerError),
+        }
     }
 
     Err(Status::Ok)

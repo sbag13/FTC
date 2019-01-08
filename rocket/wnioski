@@ -9,4 +9,9 @@ get offers nie specyfikuje czy tylko id, czy cały json
 get offers powinno byc 404 zamiast 400 
 czy tylko zalogowani mogą listowac oferty
 patch offer bad request or bad fielr, albo jedno albo drugie
-co jest id usera? mail wystarcza
+co jest id usera? mail wystarcza; a jednak jest: przy get::offers/id/ ma byc int, nie poprawiam
+w koncu nie ustalilismy bidu wejsciowego
+nie ma logout w specyfikacji
+price mogłoby byc minimalbidem dla aukcji, ale nie musi
+minimal bid w error response: gdy jest za mały to w odpowiedzi powinno byc, że większy niż <>
+czy przy get:offers/id typu auction, customer_id ma latać jak jest pusty?

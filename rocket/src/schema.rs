@@ -11,6 +11,16 @@ table! {
 }
 
 table! {
+    transactions (id) {
+        id -> Integer,
+        offer_id -> Integer,
+        buyer -> Text,
+        amount -> Nullable<Integer>,
+        bid -> Nullable<Float>,
+    }
+}
+
+table! {
     users (mail) {
         mail -> Text,
         password -> Text,
@@ -18,8 +28,11 @@ table! {
 }
 
 joinable!(offers -> users (owner));
+joinable!(transactions -> offers (offer_id));
+joinable!(transactions -> users (buyer));
 
 allow_tables_to_appear_in_same_query!(
     offers,
+    transactions,
     users,
 );

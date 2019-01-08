@@ -13,3 +13,13 @@ CREATE TABLE offers (
     date_amount INTEGER NOT NULL,
     FOREIGN KEY(owner) REFERENCES users(mail)
 );
+
+CREATE TABLE transactions (
+    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    offer_id INTEGER NOT NULL,
+    buyer VARCHAR NOT NULL,
+    amount INTEGER,
+    bid REAL,
+    FOREIGN KEY(offer_id) REFERENCES offers(id),
+    FOREIGN KEY(buyer) REFERENCES users(mail)
+)

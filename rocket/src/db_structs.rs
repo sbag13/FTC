@@ -31,16 +31,14 @@ impl Offer {
     fn get_description(&self) -> String {
         self.description.clone()
     }
-    fn print(&self) {
-        println!("{:?}", self);
-    }
     pub fn as_json(&self) -> String {
         json!({
             "type": self.type_,
             "description": self.description,
             "price": self.price,
             "date": self.date_amount
-        }).to_string()
+        })
+        .to_string()
     }
     fn get_price(&self) -> f32 {
         self.price
@@ -58,11 +56,30 @@ impl Offer {
         got_type.as_str() == self.type_.as_str()
     }
     pub fn is_owned(&self, user: &String) -> bool {
-        self.owner.as_str() == user.as_str() 
+        self.owner.as_str() == user.as_str()
     }
 }
 
 #[derive(Serialize)]
 pub struct OfferId {
     pub offer_id: i32,
+}
+
+#[derive(Serialize, AsChangeset, Deserialize, Queryable, Debug, Insertable)]
+#[table_name = "transactions"]
+pub struct InsertableTransaction {
+    pub offer_id: i32,
+    pub buyer: String,
+    pub amount: Option<i32>,
+    pub bid: Option<f32>,
+}
+
+#[derive(Serialize, AsChangeset, Deserialize, Queryable, Debug)]
+#[table_name = "transactions"]
+pub struct Transaction {
+    pub id: i32,
+    pub offer_id: i32,
+    pub buyer: String,
+    pub amount: Option<i32>,
+    pub bid: Option<f32>,
 }

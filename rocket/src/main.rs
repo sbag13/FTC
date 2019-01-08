@@ -45,3 +45,7 @@ fn main() {
         )
         .launch();
 }
+
+// TODO
+// może rozbić endpoint na mniejsze pliki
+// gruby refactor
