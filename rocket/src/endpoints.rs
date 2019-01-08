@@ -23,7 +23,7 @@ struct Claims {
     mail: String,
 }
 
-fn authorize(cookies: &Cookies) -> Result<String, ()> {
+fn authorize(cookies: &Cookies, conn: &DbConn) -> Result<String, ()> {
     let sess_token = match cookies.get("jwt") {
         Some(cookie) => cookie.value(),
         None => return Err(()),
@@ -35,7 +35,11 @@ fn authorize(cookies: &Cookies) -> Result<String, ()> {
         Err(_) => return Err(()),
     };
 
-    Ok(token_data.claims.mail)
+    let mail = token_data.claims.mail;
+    match db_queries::select_user_by_mail(conn, &mail) {
+        Ok(_) => return Ok(mail),
+        _ => return Err(()),
+    }
 }
 
 //
@@ -50,7 +54,7 @@ pub fn offer_post(
     conn: DbConn,
 ) -> Result<Custom<Json<OfferId>>, Status> {
     // authorize
-    let user_mail = match authorize(&cookies) {
+    let user_mail = match authorize(&cookies, &conn) {
         Err(()) => return Err(Status::Unauthorized),
         Ok(mail) => mail,
     };
@@ -140,7 +144,7 @@ fn all_offers(
 ) -> Result<Custom<String>, Status> {
     let mut user_mail: Option<String> = None;
     if cookies.is_some() {
-        user_mail = match authorize(&cookies.unwrap()) {
+        user_mail = match authorize(&cookies.unwrap(), &conn) {
             Err(()) => return Err(Status::Unauthorized),
             Ok(mail) => Some(mail),
         };
@@ -251,7 +255,7 @@ fn get_filtered_offers(
 
 #[patch("/offers/<id>", format = "json", data = "<params>")]
 pub fn offer_patch(conn: DbConn, cookies: Cookies, id: i32, params: String) -> Status {
-    let user_mail = match authorize(&cookies) {
+    let user_mail = match authorize(&cookies, &conn) {
         Err(()) => return Status::Unauthorized,
         Ok(mail) => mail,
     };
@@ -291,7 +295,7 @@ pub fn offer_patch(conn: DbConn, cookies: Cookies, id: i32, params: String) -> S
 
 #[delete("/offers/<id>")]
 pub fn offer_delete(conn: DbConn, cookies: Cookies, id: i32) -> Status {
-    let user_mail = match authorize(&cookies) {
+    let user_mail = match authorize(&cookies, &conn) {
         Err(()) => return Status::Unauthorized,
         Ok(mail) => mail,
     };
@@ -345,7 +349,7 @@ pub fn offer_get(conn: DbConn, id: i32) -> Result<Custom<String>, Status> {
                     "expiration_ts" => offer.date_amount
                 );
                 return Ok(Custom(Status::Ok, result_json.dump()));
-            },
+            }
             Err(diesel::result::Error::NotFound) => {
                 let result_json: json::JsonValue = object!(
                     "type" => offer.type_,
@@ -356,7 +360,7 @@ pub fn offer_get(conn: DbConn, id: i32) -> Result<Custom<String>, Status> {
                     "expiration_ts" => offer.date_amount
                 );
                 return Ok(Custom(Status::Ok, result_json.dump()));
-            },
+            }
             Err(_) => return Err(Status::NotFound),
         };
     }
@@ -369,7 +373,7 @@ pub fn offer_buy(
     id: i32,
     cookies: Cookies,
 ) -> Result<Custom<String>, Status> {
-    let user_mail = match authorize(&cookies) {
+    let user_mail = match authorize(&cookies, &conn) {
         Err(()) => return Err(Status::Unauthorized),
         Ok(mail) => mail,
     };

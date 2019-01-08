@@ -47,5 +47,6 @@ fn main() {
 }
 
 // TODO
+// check if user exist in db while
 // może rozbić endpoint na mniejsze pliki
 // gruby refactor
