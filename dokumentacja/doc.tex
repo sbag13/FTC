@@ -1,0 +1,187 @@
+\documentclass[12pt, notitlepage]{report}
+
+\usepackage{geometry}
+\usepackage{polski}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{listings}
+\usepackage{url}
+\lstset{basicstyle=\footnotesize\ttfamily,breaklines=true}
+
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd{\chapter}{\if@openright\cleardoublepage\else\clearpage\fi}{}{}{}
+\makeatother
+
+\usepackage[toc]{appendix}
+\renewcommand{\appendixtocname}{Dodatki}
+
+% \usepackage[
+%     backend=biber,
+%     style=alphabetic,
+%     sorting=ynt
+%     ]{biblatex}
+
+% \addbibresource{doc.bib}
+\geometry{legalpaper, margin=0.8in}
+
+\begin{document}
+
+\begin{titlepage}
+    \thispagestyle{empty}
+    \title{\textbf{\Huge FTC czy tam FCT \\[1cm]\LARGE dwie implementacje}}
+    \author{Szymon Bagiński \\ Artur Walasz \\[1cm]{\small Prowadzący: nie pamiętam chwilowo}}
+    % \author{Szymon Bagiński\thanks{funded by the ShareLaTeX team}}
+    \date{Styczeń 2018}
+    \maketitle
+    \vfill
+    \renewcommand{\chapter}[2]{}
+    \begin{center}
+        \Large \bfseries\contentsname
+    \end{center}
+    \tableofcontents
+    \vfill
+\end{titlepage}    
+
+\chapter*{Wstęp}
+\addcontentsline{toc}{chapter}{Wstęp}
+    \textit{EEG} \\
+    \textbf{Python} \\
+    \textsl{cos tam Cos tam} \\
+    \texttt{code code code} \\
+
+    \begin{itemize}
+        \item jeden
+        \item drugi
+        \item trzeci
+    \end{itemize}    
+    
+    \url{https://github.com/sbag13/EEG_sleep_stages_recognition}.
+
+\chapter{jakis tam rozdzial}
+\Huge Huge
+\LARGE LARGE
+\Large Large
+\normalsize normalsize
+\small small
+\tiny tiny
+\\
+\normalsize nie pamiętam jakie tam jeszcze były, można sprwadzic
+
+\begin{lstlisting}[caption=Interfejs klasy RubyInterpreter, label=rubyInterfejs]
+class RubyInterpreter
+{
+    public:		
+        static RubyInterpreter * getInterpreter () ;
+        ~RubyInterpreter () ;
+        void runScript (const char * script) ;
+        template<class VariableType >
+        VariableType getRubyVariable (const std::string & variableName) ;
+        ModificationRhoU modifyNodeLayout 
+            (NodeLayout & nodeLayout, const std::string & rubyCode) ;
+
+    private:
+        RubyInterpreter () ;
+        void initializeRubyInterpreter () ;
+        static RubyInterpreter * instance_ ;
+};
+\end{lstlisting}
+
+\newpage
+nowa strona
+
+    \section{sekcja}
+        trzeba\_escapowac\_rozne\_znaki
+
+        Wyliczenia numerowane
+        \begin{enumerate}
+            \item łan
+            \item tu
+            \item tri           
+        \end{enumerate}
+
+        \subsection{podsekcja}
+
+\chapter{nastepny rozdzial}
+    odniesienie do jakiejs labelki \ref{fig:rust}.
+        
+    \begin{figure}[H] % H - obraz nie pływa po dokumencie, inline tak jakby
+        \centering
+        \includegraphics[width=0.3\textwidth]{rust.png}
+        \caption{Rust rules}
+        \label{fig:rust}
+    \end{figure}
+
+    cos tam
+\newline
+nowa linie \\
+nastepna linia
+% komentarz
+
+hardy wzorek: $$-\frac{1}{n}\sum_{j=1}^{n}y_j^{(i)}\log(y_{j\_}^{(i)}) + (1  - y_j^{(i)})\log(1 - y_{j\_}^{(i)})$$
+
+\chapter*{Podsumowanie}
+\addcontentsline{toc}{chapter}{Podsumowanie}
+
+takze tego
+
+o jeszcze odniesienie do bibliografii \cite{gtest}
+
+\addcontentsline{toc}{chapter}{Bibliografia}
+\begin{thebibliography}{9}
+
+\bibitem{gpl}
+\textit{GNU General Public License} [online], Data dostępu: 07.12.2017. 
+\newline Tryb dostępu: \url{http://www.gnu.org/licenses/gpl.html}.
+
+
+\bibitem{gtest}
+\textit{Google Test} [online], Data dostępu: 07.12.2017. \newline Tryb dostępu: \url{https://github.com/google/googletest}.
+
+\end{thebibliography}
+
+\begin{appendices}
+    \chapter{Pliki wykorzystane do treningu}
+    \label{appendix:A}
+    SC4001E0-PSG.edf \newline
+    SC4002E0-PSG.edf \newline
+    SC4011E0-PSG.edf \newline
+    SC4012E0-PSG.edf \newline
+    SC4021E0-PSG.edf \newline
+    SC4022E0-PSG.edf \newline
+    SC4031E0-PSG.edf \newline
+    SC4032E0-PSG.edf \newline
+    SC4041E0-PSG.edf \newline
+    SC4042E0-PSG.edf \newline
+    SC4051E0-PSG.edf \newline
+    SC4052E0-PSG.edf \newline
+    SC4061E0-PSG.edf \newline
+    SC4062E0-PSG.edf \newline
+    SC4071E0-PSG.edf \newline
+    SC4072E0-PSG.edf \newline
+    SC4081E0-PSG.edf \newline
+    SC4082E0-PSG.edf \newline
+    SC4091E0-PSG.edf \newline
+    SC4092E0-PSG.edf \newline
+    SC4122E0-PSG.edf \newline
+    SC4131E0-PSG.edf \newline
+    SC4141E0-PSG.edf \newline
+    SC4142E0-PSG.edf \newline
+    SC4151E0-PSG.edf \newline
+    SC4152E0-PSG.edf \newline
+    SC4161E0-PSG.edf
+
+    \chapter{Pliki wykorzystane do testowania}
+    \label{appendix:B}
+    SC4101E0-PSG.edf \newline
+    SC4102E0-PSG.edf \newline
+    SC4111E0-PSG.edf \newline
+    SC4112E0-PSG.edf \newline
+    SC4121E0-PSG.edf
+
+\end{appendices}
+
+\end{document}

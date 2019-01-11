@@ -1,0 +1,10 @@
+\contentsline {chapter}{Wst\IeC {\k e}p}{1}
+\contentsline {chapter}{\numberline {1}jakis tam rozdzial}{1}
+\contentsline {section}{\numberline {1.1}sekcja}{2}
+\contentsline {subsection}{\numberline {1.1.1}podsekcja}{2}
+\contentsline {chapter}{\numberline {2}nastepny rozdzial}{2}
+\contentsline {chapter}{Podsumowanie}{2}
+\contentsline {chapter}{Bibliografia}{3}
+\contentsline {chapter}{Dodatki}{4}
+\contentsline {chapter}{\numberline {A}Pliki wykorzystane do treningu}{4}
+\contentsline {chapter}{\numberline {B}Pliki wykorzystane do testowania}{4}
