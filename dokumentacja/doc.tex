@@ -63,7 +63,7 @@ Celem tego projektu było zbadanie wpływu czynnika ludzkiego na różne impleme
 
 \subsection{Realizacja}
 
-Punktem wyjściowym do projektu było stworzenie wspólnej specyfikacji wymagań projektowych oraz zbioru testów akceptacyjnych [TODO załącznik - testy] prostego serwisu aukcyjnego w architekturze klient-serwer.
+Punktem wyjściowym do projektu było stworzenie wspólnej specyfikacji wymagań projektowych oraz zbioru testów akceptacyjnych \cite{tests} prostego serwisu aukcyjnego w architekturze klient-serwer.
 
 Na potrzeby projektu zdefiniowano specyfikację interfejsu serwisu uwzględniającą następujące funkcje:
 \begin{itemize}
@@ -102,7 +102,27 @@ Dokładne wymagania dla konkretnych funkcji serwizu zostaną opisane w dalszej c
 
 \section{Porównanie implementacji}
 
+\subsection{Wybór technologii}
+
+Podstawową różnicą między dwiema powstałymi implementacjami jest użyta technologia. Każde z rozwiązań posiada oczywiście inny zestaw cech, niektóre rzeczy wykonuje się łatwiej kosztem innych. Każda z nich ma także inne ograniczenia, czy zachowania domyślne. Wybór ten zatem mocno rzutuje na różnice, które będą widoczne przy konkretnych funkcjach systemu, bądź na nakład pracy jaki trzeba włożyć przy spełnianiu konkretnych wymagań.
+
+\subsubsection{Implementacja 1}
+
+Do pierwszej implementacji postanowiono użyć języka programowania Rust \cite{rust}. Jest to kompilowalny język stworzony z myślą o tworzeniu stabilnych, bezpiecznych, i przede wszystkim wydajnych aplikacji.
+
+Do stworzenia aplikacji, korzystającej z protokołu HTTP, skorzystano z biblioteki Rocket \cite{rocket}. Jest to bardzo wygodne rozwiązanie. W połączeniu z menedżerem pakietów Cargo, pierwszą najprostszą aplikację można stworzyć w kilka minut. Rozszerzanie jej o kolejne funkcjonalności również nie przyspaża żadnych problemów. Jednocześnie zapewnia ona bezpieczeństwo danej aplikacji, elastyczność a przedwszystkim stabilność (m. in. poprzez ``type safety''). W połączeniu z ogólnymi cechami języka Rust daje nam to duże prawdopodobieństwo, że skompilowany program, będzie działał bez problemów przez długi czas.
+
+\subsubsection{Implementacja 2}
+
+<TODO> Artur, jak leci </TODO>
+
 \subsection{Rejestracja}
+
+Mogłoby się wydawać, że tak prosty \textsl{endpoint} jak rejestracja nie powinien spowodować dużych rozbieżności. Niemniej jednak niedociągnięcia specyfikacji pozostawiają pole do różnych interpretacji.\\
+W ciele zapytania POST podczas rejestracji wysyłana jest struktura JSON z dwoma polami: mail oraz password. Wartość pola mail musi być oczywiście niepowtarzalna. Istniej zatem możliwość aby użyć jej jako identfikatora danego użytkownika, zarówno w bazie danych jak i w aplikacji. Tak postanowiono zrobić w implementacji 1., gdzie mail jest kluczem pierwotnym dla użytkownika. <TODO> Artur, jak z tym mailem u cb? </TODO> \\
+Następnie należy rozpatrzyć przypadek, którego specyfikacja nie przewiduje. Gdy nie uda się poprawnie zinterpretować przesłanych danych jako JSON, bibliotek Rocket obsłuży taki przypadek wysyłając status 422 (Unprocessable Entity). <TODO> Artur, jak z tym u Cb, dodaj wniosek jak możesz </TODO> \\
+Specyfikacja określa co powinno się stać gdy zapytanie zostanie wysłane poprawnie za wyjątkiem typu metody HTTP. W takim przypadku powinien zostać zwrócony status 405 (Method Not Allowed). W przypadku implementacji 1. skutkuje to bardzo dużym nakładem mało istotnej pracy. Rocket, gdy nie uda mu się dopasować żadnego istniejącego endpointu, wysyła domyślnie status 404 (Not Found). Dzieje się tak również w przypadku gdy nie znajdzie odpowiedniej metody HTTP, nawet jeśli reszta parametrów się zgadza. Aby otrzymać zgodność ze specyfikacją należałoby więc utworzyć endpointy dla wszystkich możliwych metod protokołu HTTP, których jedyną odpowiedzialnością byłoby wysłanie błędu o statusie 405. W implementacji 1. zdecydowano się nadpisać tylko metody get, put oraz delete. <TODO> Artur, a jak z tym u Cb? </TODO>
+
 \subsection{Logowanie}
 \subsection{Tworzenie ofert}
 \subsection{Kupowanie / licytacja}
@@ -115,6 +135,14 @@ Dokładne wymagania dla konkretnych funkcji serwizu zostaną opisane w dalszej c
 \bibitem{tests}
 \textit{Opis testów funkcji systemu} [online], Data dostępu: 12.01.2019. 
 \newline\url{https://drive.google.com/drive/folders/194qvJLmUYSD427WfbAkm365Q3SCY1ZaY}.
+
+\bibitem{rocket}
+\textit{Rocket - Simple, Fast, Type-Safe Web Framework for Rust} [online], Data dostępu: 12.01.2019. 
+\newline\url{https://rocket.rs/}.
+
+\bibitem{rust}
+\textit{Rust} [online], Data dostępu: 12.01.2019. 
+\newline\url{https://www.rust-lang.org/}.
 
 \end{thebibliography} 
 

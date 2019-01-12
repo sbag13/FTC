@@ -1,6 +1,6 @@
 # Fdb version 3
-["pdflatex"] 1547320489 "/home/sbag/Desktop/FCT_aukcja/dokumentacja/doc.tex" "doc.pdf" "doc" 1547320489
-  "/home/sbag/Desktop/FCT_aukcja/dokumentacja/doc.tex" 1547320488 8710 556ddaea5ab3dfb3ef0e71d0b3c0875b ""
+["pdflatex"] 1547331997 "/home/sbag/Desktop/FCT_aukcja/dokumentacja/doc.tex" "doc.pdf" "doc" 1547331997
+  "/home/sbag/Desktop/FCT_aukcja/dokumentacja/doc.tex" 1547331996 12245 807f97cd6363aa40c97c0c07130a7a14 ""
   "/usr/share/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1543696176 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/share/texmf-dist/fonts/map/fontname/texfonts.map" 1543696176 3332 103109f5612ad95229751940c61aada0 ""
   "/usr/share/texmf-dist/fonts/tfm/jknappen/ec/ecbx1200.tfm" 1543696176 3584 402da0b29eafbad07963b1224b222f18 ""
@@ -14,6 +14,7 @@
   "/usr/share/texmf-dist/fonts/tfm/jknappen/ec/ecrm1440.tfm" 1543696176 3584 3169d30142b88a27d4ab0e3468e963a2 ""
   "/usr/share/texmf-dist/fonts/tfm/jknappen/ec/ecrm1728.tfm" 1543696176 3584 3c76ccb63eda935a68ba65ba9da29f1a ""
   "/usr/share/texmf-dist/fonts/tfm/jknappen/ec/ecrm2074.tfm" 1543696176 3584 8e2870ec7aa9776f59654942b0923f51 ""
+  "/usr/share/texmf-dist/fonts/tfm/jknappen/ec/ecsl1200.tfm" 1543696176 3584 36dd7d4b521e95b0a47034c0d524f2c5 ""
   "/usr/share/texmf-dist/fonts/tfm/jknappen/ec/ecti1200.tfm" 1543696176 3072 8b5a64dc91775463bc95e2d818524028 ""
   "/usr/share/texmf-dist/fonts/tfm/jknappen/ec/ectt1000.tfm" 1543696176 1536 06717a2b50de47d4087ac0e6cd759455 ""
   "/usr/share/texmf-dist/fonts/tfm/jknappen/ec/ectt1200.tfm" 1543696176 1536 487c9b46984a816c7ed238d0674595c7 ""
@@ -43,6 +44,7 @@
   "/usr/share/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb" 1543696176 145929 f25e56369a345c4ff583b067cd87ce8e ""
   "/usr/share/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb" 1543696176 136101 f533469f523533d38317ab5729d00c8a ""
   "/usr/share/texmf-dist/fonts/type1/public/cm-super/sfrm1440.pfb" 1543696176 131078 d96015a2fa5c350129e933ca070b2484 ""
+  "/usr/share/texmf-dist/fonts/type1/public/cm-super/sfsl1200.pfb" 1543696176 150680 2f900f600c0f2396b35eb0b288647d6e ""
   "/usr/share/texmf-dist/fonts/type1/public/cm-super/sfti1200.pfb" 1543696176 198221 ca5aa71411090ef358a6cc78b7458365 ""
   "/usr/share/texmf-dist/fonts/type1/public/cm-super/sftt1000.pfb" 1543696176 169201 9ebf99020dde51a5086e186761a34e8f ""
   "/usr/share/texmf-dist/fonts/type1/public/cm-super/sftt1200.pfb" 1543696176 167085 68de377d2744a68a88fa40a1f610615a ""
@@ -93,11 +95,11 @@
   "/usr/share/texmf-dist/web2c/texmf.cnf" 1543696176 33301 a3134070eacafb10b1f371612ce2650d ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1546462057 2838912 b46f507ebff11309c57c53ad13977ef4 ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1546462054 7910427 27c6e717a783e630bf9c50d87f75c2f7 ""
-  "doc.aux" 1547320489 1045 acc7f8dbd06609f0497c0df1e1e93ec9 ""
-  "doc.tex" 1547320488 8710 556ddaea5ab3dfb3ef0e71d0b3c0875b ""
-  "doc.toc" 1547320489 769 6ca7c6bb52dbf32d01cefa66d1ed26d2 ""
+  "doc.aux" 1547331997 1401 ffaeb95549f4a7c6a1f23a0f0f45bc2f ""
+  "doc.tex" 1547331996 12245 807f97cd6363aa40c97c0c07130a7a14 ""
+  "doc.toc" 1547331997 982 c48a82364c9efd3cd322f4f1ab450024 ""
   (generated)
-  "doc.toc"
   "doc.log"
   "doc.aux"
+  "doc.toc"
   "doc.pdf"
