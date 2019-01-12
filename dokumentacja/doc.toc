@@ -1,10 +1,12 @@
-\contentsline {chapter}{Wst\IeC {\k e}p}{1}
-\contentsline {chapter}{\numberline {1}jakis tam rozdzial}{1}
-\contentsline {section}{\numberline {1.1}sekcja}{2}
-\contentsline {subsection}{\numberline {1.1.1}podsekcja}{2}
-\contentsline {chapter}{\numberline {2}nastepny rozdzial}{2}
-\contentsline {chapter}{Podsumowanie}{2}
-\contentsline {chapter}{Bibliografia}{3}
-\contentsline {chapter}{Dodatki}{4}
-\contentsline {chapter}{\numberline {A}Pliki wykorzystane do treningu}{4}
-\contentsline {chapter}{\numberline {B}Pliki wykorzystane do testowania}{4}
+\contentsline {section}{\numberline {1}Wst\IeC {\k e}p}{1}
+\contentsline {subsection}{\numberline {1.1}Cel projektu}{1}
+\contentsline {subsection}{\numberline {1.2}Realizacja}{1}
+\contentsline {section}{\numberline {2}Por\IeC {\'o}wnanie implementacji}{2}
+\contentsline {subsection}{\numberline {2.1}Rejestracja}{2}
+\contentsline {subsection}{\numberline {2.2}Logowanie}{2}
+\contentsline {subsection}{\numberline {2.3}Tworzenie ofert}{2}
+\contentsline {subsection}{\numberline {2.4}Kupowanie / licytacja}{2}
+\contentsline {subsection}{\numberline {2.5}Przegl\IeC {\k a}danie ofert wraz z filtrowaniem}{2}
+\contentsline {section}{\numberline {3}Podsumowanie}{2}
+\contentsline {section}{Dodatki}{3}
+\contentsline {section}{\numberline {A}Interfejs serwisu aukcyjnego}{3}

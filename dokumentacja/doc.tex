@@ -1,4 +1,4 @@
-\documentclass[12pt, notitlepage]{report}
+\documentclass[12pt, notitlepage]{article}
 
 \usepackage{geometry}
 \usepackage{polski}
@@ -18,6 +18,10 @@
 
 \usepackage[toc]{appendix}
 \renewcommand{\appendixtocname}{Dodatki}
+\renewcommand\refname{Odwołania}
+\usepackage[parfill]{parskip}
+% \setlength{\parindent}{0pt}
+% \setlength{\parskip}{\baselineskip}
 
 % \usepackage[
 %     backend=biber,
@@ -32,13 +36,13 @@
 
 \begin{titlepage}
     \thispagestyle{empty}
-    \title{\textbf{\Huge FTC czy tam FCT \\[1cm]\LARGE dwie implementacje}}
-    \author{Szymon Bagiński \\ Artur Walasz \\[1cm]{\small Prowadzący: nie pamiętam chwilowo}}
+    \title{\textbf{\Huge Systemy bezpieczne i FTC \\[1cm]\LARGE Wiarygodność systemów w pracy zespołowej - \\ jak czynnik ludzki wpływa na różnice w implementacji specyfikacji}}
+    \author{Szymon Bagiński \\ Artur Walasz \\[1cm]{\small Prowadzący: Mgr inż. Tomasz Serafin}}
     % \author{Szymon Bagiński\thanks{funded by the ShareLaTeX team}}
     \date{Styczeń 2018}
     \maketitle
     \vfill
-    \renewcommand{\chapter}[2]{}
+    % \renewcommand{\chapter}[2]{}
     \begin{center}
         \Large \bfseries\contentsname
     \end{center}
@@ -46,141 +50,207 @@
     \vfill
 \end{titlepage}    
 
-\chapter*{Wstęp}
-\addcontentsline{toc}{chapter}{Wstęp}
-    \textit{EEG} \\
-    \textbf{Python} \\
-    \textsl{cos tam Cos tam} \\
-    \texttt{code code code} \\
+% \chapter{Wstęp}
+% \addcontentsline{toc}{chapter}{Wstęp}
 
+\section{Wstęp}
+
+\subsection{Cel projektu}
+
+Wykorzystywanie nawet najlepszego oprogramowania, w którym zaimplementowano najbardziej zaawansowane technologie i najbezpieczniejsze algorytmy, nie jest w stanie zapewnić systemowi 100-procentowego bezpieczeństwa. Dzieje się tak dlatego, że w rozwoju i implementacji oprogramowania uczestniczą ludzie, którzy z natury mają skłonność do popełniania błędów. W rezultacie, ludzie, którzy są częścią systemu, zawsze będą najsłabszym ogniwem bezpieczeństwa systemu. Czynnik ludzki jest głównym powodem, dla którego udaje się tak wiele ataków na komputery i systemy.
+
+Celem tego projektu było zbadanie wpływu czynnika ludzkiego na różne implementacje tej samej specyfikacji. W jego ramach stworzono dwie niezależne implementacje oprogramowania z jednolitym, ustandaryzowanym interfejsemm, sposobem testowania oraz wymaganiami funkcjonalnymi. Na ich podstawie wyciągnięto wnioski na temat tego, jak indywidualne podejście, interpretacja dostarczonych wymagań oraz wybór technologii wpływają na finalną wersję wytworzonego produktu.
+
+\subsection{Realizacja}
+
+Punktem wyjściowym do projektu było stworzenie wspólnej specyfikacji wymagań projektowych oraz zbioru testów akceptacyjnych [TODO załącznik - testy] prostego serwisu aukcyjnego w architekturze klient-serwer.
+
+Na potrzeby projektu zdefiniowano specyfikację interfejsu serwisu uwzględniającą następujące funkcje:
+\begin{itemize}
+    \item Rejestracja użytkowników
+	\item Logowanie użytkowników
+	\item Tworzenie ofert typu:
     \begin{itemize}
-        \item jeden
-        \item drugi
-        \item trzeci
-    \end{itemize}    
-    
-    \url{https://github.com/sbag13/EEG_sleep_stages_recognition}.
+		\item akucja: ``auction''
+		\item teraz: ``buynow''
+    \end{itemize}
+	\item Kupowanie / licytacja twoarów (ofert) przez użytkowników
+    \item Przeglądanie ofert z filtracją
+    \begin{itemize}
+        \item opis zawiera tekst zadany tekst
+        \item cena minimalna
+        \item cena maksymalna
+        \item ilość dostępnych przedmiotów
+    \end{itemize}
+	\item Przeglądanie własnych ofert
+    \item Obsługa własnych ofert:
+    \begin{itemize}
+		\item modyfikacja ofert
+        \item usówanie ofert
+    \end{itemize}
+\end{itemize}
 
-\chapter{jakis tam rozdzial}
-\Huge Huge
-\LARGE LARGE
-\Large Large
-\normalsize normalsize
-\small small
-\tiny tiny
-\\
-\normalsize nie pamiętam jakie tam jeszcze były, można sprwadzic
+Specyfikacja zawiera opis wszystkich wymaganych endpointów (dodatek \ref{app:endpoints}), w tym:
+\begin{itemize}
+    \item adres url
+    \item dozwolone metody HTTP
+    \item wymagany format danych, które powinny zostać przesłane w zapytaniach POST
+    \item oczekiwane statusy odpowiedzi w zależności od warunków
+\end{itemize}
 
-\begin{lstlisting}[caption=Interfejs klasy RubyInterpreter, label=rubyInterfejs]
-class RubyInterpreter
-{
-    public:		
-        static RubyInterpreter * getInterpreter () ;
-        ~RubyInterpreter () ;
-        void runScript (const char * script) ;
-        template<class VariableType >
-        VariableType getRubyVariable (const std::string & variableName) ;
-        ModificationRhoU modifyNodeLayout 
-            (NodeLayout & nodeLayout, const std::string & rubyCode) ;
+Dokładne wymagania dla konkretnych funkcji serwizu zostaną opisane w dalszej części dokumentacji. Porównane zostaną obydwie implementacjie pod kątem zgodności z dokumentacjią oraz ze sobą wzajemnie.
 
-    private:
-        RubyInterpreter () ;
-        void initializeRubyInterpreter () ;
-        static RubyInterpreter * instance_ ;
-};
-\end{lstlisting}
+\section{Porównanie implementacji}
 
-\newpage
-nowa strona
+\subsection{Rejestracja}
+\subsection{Logowanie}
+\subsection{Tworzenie ofert}
+\subsection{Kupowanie / licytacja}
+\subsection{Przeglądanie ofert wraz z filtrowaniem}
 
-    \section{sekcja}
-        trzeba\_escapowac\_rozne\_znaki
+\section{Podsumowanie}
 
-        Wyliczenia numerowane
-        \begin{enumerate}
-            \item łan
-            \item tu
-            \item tri           
-        \end{enumerate}
-
-        \subsection{podsekcja}
-
-\chapter{nastepny rozdzial}
-    odniesienie do jakiejs labelki \ref{fig:rust}.
-        
-    \begin{figure}[H] % H - obraz nie pływa po dokumencie, inline tak jakby
-        \centering
-        \includegraphics[width=0.3\textwidth]{rust.png}
-        \caption{Rust rules}
-        \label{fig:rust}
-    \end{figure}
-
-    cos tam
-\newline
-nowa linie \\
-nastepna linia
-% komentarz
-
-hardy wzorek: $$-\frac{1}{n}\sum_{j=1}^{n}y_j^{(i)}\log(y_{j\_}^{(i)}) + (1  - y_j^{(i)})\log(1 - y_{j\_}^{(i)})$$
-
-\chapter*{Podsumowanie}
-\addcontentsline{toc}{chapter}{Podsumowanie}
-
-takze tego
-
-o jeszcze odniesienie do bibliografii \cite{gtest}
-
-\addcontentsline{toc}{chapter}{Bibliografia}
 \begin{thebibliography}{9}
 
-\bibitem{gpl}
-\textit{GNU General Public License} [online], Data dostępu: 07.12.2017. 
-\newline Tryb dostępu: \url{http://www.gnu.org/licenses/gpl.html}.
+\bibitem{tests}
+\textit{Opis testów funkcji systemu} [online], Data dostępu: 12.01.2019. 
+\newline\url{https://drive.google.com/drive/folders/194qvJLmUYSD427WfbAkm365Q3SCY1ZaY}.
+
+\end{thebibliography} 
 
 
-\bibitem{gtest}
-\textit{Google Test} [online], Data dostępu: 07.12.2017. \newline Tryb dostępu: \url{https://github.com/google/googletest}.
-
-\end{thebibliography}
-
+\newpage
+\setlength\parindent{24pt}
 \begin{appendices}
-    \chapter{Pliki wykorzystane do treningu}
-    \label{appendix:A}
-    SC4001E0-PSG.edf \newline
-    SC4002E0-PSG.edf \newline
-    SC4011E0-PSG.edf \newline
-    SC4012E0-PSG.edf \newline
-    SC4021E0-PSG.edf \newline
-    SC4022E0-PSG.edf \newline
-    SC4031E0-PSG.edf \newline
-    SC4032E0-PSG.edf \newline
-    SC4041E0-PSG.edf \newline
-    SC4042E0-PSG.edf \newline
-    SC4051E0-PSG.edf \newline
-    SC4052E0-PSG.edf \newline
-    SC4061E0-PSG.edf \newline
-    SC4062E0-PSG.edf \newline
-    SC4071E0-PSG.edf \newline
-    SC4072E0-PSG.edf \newline
-    SC4081E0-PSG.edf \newline
-    SC4082E0-PSG.edf \newline
-    SC4091E0-PSG.edf \newline
-    SC4092E0-PSG.edf \newline
-    SC4122E0-PSG.edf \newline
-    SC4131E0-PSG.edf \newline
-    SC4141E0-PSG.edf \newline
-    SC4142E0-PSG.edf \newline
-    SC4151E0-PSG.edf \newline
-    SC4152E0-PSG.edf \newline
-    SC4161E0-PSG.edf
-
-    \chapter{Pliki wykorzystane do testowania}
-    \label{appendix:B}
-    SC4101E0-PSG.edf \newline
-    SC4102E0-PSG.edf \newline
-    SC4111E0-PSG.edf \newline
-    SC4112E0-PSG.edf \newline
-    SC4121E0-PSG.edf
+\section{Interfejs serwisu aukcyjnego} \label{app:endpoints}
+\footnotesize
+\texttt{
+/registration \\
+POST \\
+\{\\
+\indent mail: \indent		string,\\
+\indent	password:	string\\
+\}\\
+\\
+201 - Created (pomyślne utworzenie użytkownika)\\
+400 - Bad Request (np. zły email)\\
+409 - Conflict (konto istnieje)\\
+500 - Internal Server Error\\
+503 - Server Unavaiable (powód podany w opisie)\\
+\\
+not POST \\
+405 - Method Not Allowed 
+\\ ---------------------------------------------------------------------------------------------------------------------------------
+\\
+/login\\
+POST \\
+\{\\
+\indent    mail:	\indent	string,\\
+\indent    password:	string\\
+\}\\
+\\
+200 - OK, (JWT token in response)\\
+401 - Unauthorized\\
+404 - Not Found\\
+500 - Internal Server Error\\
+503 - Server Unavaiable (powód podany w opisie)\\
+\\
+not POST\\
+405 - Method Not Allowed\\
+---------------------------------------------------------------------------------------------------------------------------------\\
+/offers\\
+POST\\
+\{\\
+\indent type*: \ \ \ \ \ \ \ \lbrack auction|buynow\rbrack,\\
+\indent	description*:	string,\\
+\indent	price*:	\ \ \ \ \ \ float, (cena min. - akcja; cena za sztukę - kup teraz),\\
+\indent	date*:\ \ \ \ \ \ \ \ 	timestamp, (sekundy, tylko dla aukcji),\\
+\indent	amount*: \ \ \ \ \ int (tylko dla kup teraz)\\
+\}\\
+\\
+201 - added \\
+	\{\\
+    	\indent offer\_id: int\\
+	\}\\
+400 - Bad Request (niepoprawny JSON, brakujące lub nadmiarowe pola)\\
+401 - Unauthorized (niezalogowany użytkownik)\\
+403 - Forbidden (zalogowany na nieuprawnione konto)\\
+500 - Internal Server Error\\
+503 - Server Unavaiable (powód podany w opisie)\\
+\\
+GET\\
+Dozwolone filtry w url:\\
+- contains - pole description zawiera ciąg znaków\\
+- price\_min - minimalna cena towaru (i aukcji)\\
+- price\_max - maksymalna cena towaru (i aukcji)\\
+- type - [auction/buynow] - typ oferty\\
+- created\_by\_me: boolean\\
+\\
+200 - (oferty w odpowiedzi - może być pusta "\lbrack\rbrack")\\
+400 - Bad Request (niepoprawny filtr w url)\\
+500 - Internal Server Error\\
+503 - Server Unavaiable (powód podany w opisie)\\
+---------------------------------------------------------------------------------------------------------------------------------\\
+/offers/\{id\}\\
+PATCH\\
+\{\\
+\indent    **fields\_to\_modify...\\
+\}\\
+\\
+użytkownik może modyfikować:\\
+- price, amount, description - dla ofert typu "buynow"\\
+- price, description -  dla ofert typu "auction"\\
+\\
+202 - Accpepted\\
+400 - Bad Request\\
+403 - Unauthorized\\
+404 - Not Found (nie znaleziono ofert)\\
+\\
+DELETE\\
+(no payload)\\
+202 - Accepted\\
+403 - Unauthorized\\
+404 - Not Found (nie znaleziono oferty)\\
+\\
+GET\\
+(no payload)\\
+200 - Ok (w odpowiedzi szczegóły aukcji)\\
+\{	\\
+\indent    type: \ \ \ \ \ \ \ \ \ "auction",\\
+\indent    description: \ \ "opis",\\
+\indent    status: \ \ \ \ \ \ \ [active / expired],\\
+\indent    last\_bid: \ \ \ \ \ float,\\
+\indent    customer\_id: \ \ int,\\
+\indent    expiration\_ts: <timestamp>\\
+\}\\
+200 - Ok (szczegóły oferty "buynow")\\
+\{	\\
+\indent type: \ \ \ \ \ \ \ "buynow",\\
+\indent description: string,\\
+\indent	price: \ \ \ \ \ \ int,        \\
+\indent	amount: \ \ \ \ \ int\\
+\}\\
+404 - Not Found\\
+---------------------------------------------------------------------------------------------------------------------------------\\
+/offers/\{id\}/buy\\
+POST\\
+\{\\
+\indent    bid: \ \ \  int (auction)\\
+\indent    amount:	int (buynow)\\
+\}\\
+\\
+202 - Accepted\\
+400 - Bad Request (niepoprawny JSON, brakujące lub nadmiarowe pola)\\
+401 - Unauthorized (niezalogowany użytkownik)\\
+409 - Conflict:\\
+\indent	409 - \{"minimal\_bid": <minimalny bid>\}\\
+\indent	409 - \{"max\_amout": <ilość dostępnych produktóœ>\}\\
+\indent	409 - \{"status": "expired"\}\\
+\indent	409 - \{"conflict": "unable to order own items"\}\\
+\indent	409 - \{"conflict": "you can not bid on the auction you win"\}\\
+500 - internal server error\\
+503 - Server Unavaiable (powód podany w opisie)\\
+}
 
 \end{appendices}
 

@@ -186,33 +186,3 @@ POST
 ```
 
 
-
-```json
-/myorders
-GET
-list of orders
-
-200
-{
-    "orders":[
-        {
-            offer_id: id,
-            amount: int
-        },
-        {
-            offer_id: id,
-            winning_bid: bool,
-            my_bid: float
-        },
-        ...
-    ]
-}
-        
-401 - Unauthorized (niezalogowany użytkownik)
-500 - internal server error
-503 - server unavaiable (reason in description)
-
-```
-
-
-
