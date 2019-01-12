@@ -1,0 +1,30 @@
+Wstęp
+
+Założeniem projektu było stworzenie dwóch niezależnycj implementacji oprogramowania i wyciągnięcie wniosków na temat tego, jak indywidualne podejście interpretacja dostarczonych wymagań wpływa na finalną wersję wytworzonego produktu.
+
+Punktem wyjściowym do projektu było stworzenie przed przystąpieniem do implementacji stworzenie wspólnej specyfikacji wymagań projektowych [załącznik - wymagania] oraz zbioru testów akceptacyjnych [załącznik - testy].
+
+Na potrzeby projektu zdefiniowano specyfikację interfejsu serwisu aukcyjnego uwzględniającą następujące funkcje:
+	- Rejestracja użytkowników
+	- Logowanie użytkowników
+	- Tworzenie ofert:
+		- typu akucji: 'auction'
+		- typu kup teraz: 'buynow'
+	- Kupowanie / licytacja twoarów (ofert) przez użytkowników
+	- Przeglądanie ofert z filtracją
+		- opis zawiera tekst zadany tekst
+		- cena minimalna
+		- cena maksymalna
+		- ilość dostępnych przedmiotów
+	- Przeglądanie własnych ofert i zakupów
+	- Obsługa własnych ofert:
+		- modyfikacja ofert
+		- usówanie ofert
+
+Specyfikacja zawierała opis wszystkich wymaganych endpointów, w tym:
+- adres url
+- dozwolone metody HTTP
+- wymagany format danych, które powinny zostać przesłane w zapytaniach POST
+- oczekiwane statusy odpowiedzi w zależności od warunków
+
+Dokładne wymagania dla konkretnych funkcji serwizu zostaną opisane w dalszej części niniejszej dokumentacji. Porównane zostaną obydwie implementacjie pod kontem zgodności z dokumentacjią oraz ze sobą wzajemnie.
