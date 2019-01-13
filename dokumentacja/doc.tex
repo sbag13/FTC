@@ -145,10 +145,23 @@ W przypadku implementacji 2. skorzystano z zestawu gotowych aplikacji które zos
     \item rest\_framework\_jwt.authentication.JSONWebTokenAuthentication
     \item allauth.account
 \end{itemize}
-Oraz inne aplikacje od których powyższe są zależne. Gotowe rozwiązanie dostarcza mechanizmy do generacji tokenów (logowania) jak i też wylogowywania. Tutaj pojawił się wspomniany w poprzedniej sekcji \ref{sec:rejestracja} problem z modelem użytkownika. Gotowe aplikacjie posiadają wiele ustawień, które należało odpowiednio sparametryzować, by autentykacja odbywała się za pomocą pola "mail". Domyślnie wykorzystywanym polem jest pole "username", które pierwotnie zostało całkowicie usunięte. Aplikacje o których mowa, pomimo że potrafią za pomocą odpowiednich ustawień zmienić motodę autentykacji na pole "mail", do prawidłowego działania wciąż potrzebowały pola "username". Znalezienie problemu i jego rozwiązania było najcięższym problemem w implementacji 2. Finalnie pole username jest sztucznie dodawane do modelu użytkownika, ale zawsze jest ono puste i nigdzie nie jest wykorzystywane.  \\
+Oraz inne aplikacje od których powyższe są zależne. Gotowe rozwiązanie dostarcza mechanizmy do generacji tokenów (logowania) jak i też wylogowywania. Tutaj pojawił się wspomniany w poprzedniej sekcji \ref{sec:rejestracja} problem z modelem użytkownika. Gotowe aplikacjie posiadają wiele ustawień, które należało odpowiednio sparametryzować, by autentykacja odbywała się za pomocą pola "mail". Domyślnie wykorzystywanym polem jest pole "username", które pierwotnie zostało całkowicie usunięte. Aplikacje o których mowa, pomimo że potrafią za pomocą odpowiednich ustawień zmienić motodę autentykacji na pole "mail", do prawidłowego działania wciąż potrzebowały pola "username". Znalezienie problemu i jego rozwiązania było najcięższym problemem w implementacji 2. Projekt był przepisywany trzykrotnie, aby sprostać postawionym w specyfikacji wymaganiom. Finalnie pole username jest sztucznie dodawane do modelu użytkownika, ale zawsze jest ono puste i nigdzie nie jest wykorzystywane.  \\
 W implementacji 2. nie przewidziano umieszczania tokena JWT w plikach ``cookies'' przeglądarki, ponieważ wszystkie testy wykonywane były z poziomu frameworku pytest, lub za pomocą narzędzia Postman.
 
 \subsection{Tworzenie ofert}
+
+<TODO> to tylko draft. <todo>
+Opis w specyfikacji, \\
+- zalogowany użytkownik \\
+- ujemna cena - wynika z testow akceptacyjnych
+- ujamna ilosc - wynika z testow akceptacyjnych
+
+- aukcja - cena minimalna -> niejednoznacznosc w dokumentacji
+
+- nadmiarowe pola - serializer jes odrzuca nie generujac bledu. Sprawdzane jest domyslnie tylko to, czy potrzebne pola sa zawarte. Powinno byc 400 wg. specyfikacji
+
+
+
 \subsection{Kupowanie / licytacja}
 \subsection{Przeglądanie ofert wraz z filtrowaniem}
 
