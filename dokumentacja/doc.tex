@@ -190,7 +190,35 @@ W implementacji 2. niepoprawny JSON jest obsługiwany automatycznie, jak został
 \subsection{Kupowanie / licytacja}
 \subsection{Przeglądanie ofert}
 \subsubsection{Lista ofert wraz z filtrowaniem}\label{sec:search}
-/offers
+Specyfikacja nie określa w żaden sposób formy w jakiej ma być zwracana lista ofert. Jedyna klarowna informacja na ten temat to założenie, że jeśli użyte zostaną filtry i żadna z ofert nie będzie spełniała wymagań, to zwrócona zostanie pusta lista "\lbrack\rbrack". \\
+
+W implementacji 2. zastosowano dziedziczenie klas ofert "aukcji" i "kup teraz" po wspólnej klasie oferty. Klasa ta zawiera wspólne pola takie jak id. operacji, opis "description" oraz pole zawierające informację o id właściciela. Do zwracania listy wykorzystano serializer, który zwraca jedynie id oferty, jej opis oraz typ. Założono, że informacje szczegółowe będą dostępne za pośrednictwem endopintu "/offers/<offer\_id>", opisanego w sekcji \ref{sec:details}. Przykładowa odpowiedź wygląda więc następująco:
+\begin{lstlisting}
+[
+    {     
+        "id": 1,
+        "type": "auction",
+        "description": "Awesome item"
+    },
+    {
+        "id": 2,
+        "type": "buynow",
+        "description": "best items"
+    },
+    ...
+]	
+\end{lstlisting}
+
+Specyfikacja definiuje możliwe to wykorzystania w adresie url filtry:
+\begin{itemize}
+    \item "contains" - wyrażenie które będzie szukane w opisie oferty
+    \item "price\_min" - cena minimalna (w przypadku aukcji ostatnio licytowana kwota)
+    \item "price\_max" - cena maksymalna (w przypadku aukcji ostatnio licytowana kwota)
+    \item "type" - typ oferty, "auction" lub "buynow"
+    \item "created\_by\_me" - jeśli ustawiony, powinien zwracać tylko oferty których zalogowany użytkownik jest właścicielem
+\end{itemize}
+
+W implementacji 2. wykorzystano obiekty Django Q (querry) \cite{django_q}, które pozwalają na wygodne budowanie zapytania wykorzystanego do filtracji listy zwracanej przez bazę danych. Obiekty te pozwalają na elastyczne łączenie warunków, dzięki czemu złożony filtr jest aplikowany wylko raz.
 
 \subsubsection{Szczegóły oferty}\label{sec:details}
 
@@ -230,6 +258,11 @@ DELETE
 \bibitem{django_rest_framework}
 \textit{Django REST framework} [online], Data dostępu: 12.01.2019. 
 \newline\url{https://www.django-rest-framework.org/}.
+
+
+\bibitem{django_q}
+\textit{Django Q} [online], Data dostępu: 12.01.2019. 
+\newline\url{https://django-q.readthedocs.io/en/latest/}.
 
 \end{thebibliography} 
 
