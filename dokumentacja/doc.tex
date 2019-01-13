@@ -124,7 +124,7 @@ W drógiej implementacji postanowiono wykorzystać język Python. W języku tym 
     \item Django
 \end{itemize}
 
-Na potrzeby projektu zdecydowano się wykorzystać framework Django, który opiera się o wzorzec architektoniczny model-template-view. Zakres implementacji określał jedynie zbudowanie interfejsu w protokole HTTP (Web API), dlatego pełne możliwości fremeworku nie zostały wykorzystane. Niemniej jednak odseparowanie logiki biznesowej od modeli w bazie danych oraz łatwość zarządzenia tymi modelami przeważyła nad wyborem właśnie tego frameworku. W implementacji wykorzystano ponadto narzędzie Django REST framework \cite{django_rest_framework}, które w znacznym stopniu ułatwia tworzenie Web API. Django REST framework dostarcza wielu gotowych generycznych widoków, które zapewniają na przykład wzorzec CRUD dla danego obiektu, czy też pozwalają na wyświetlanie całych list obiektów w formie zdefiniowanej przez dostarczoną klasę Serializera.
+Na potrzeby projektu zdecydowano się wykorzystać framework Django, który opiera się o wzorzec architektoniczny model-template-view. Zakres implementacji określał jedynie zbudowanie interfejsu w protokole HTTP (Web API), dlatego pełne możliwości fremeworku nie zostały wykorzystane. Niemniej jednak odseparowanie logiki biznesowej od modeli w bazie danych oraz łatwość zarządzenia tymi modelami przeważyła nad wyborem właśnie tego frameworku. W implementacji wykorzystano ponadto narzędzie Django REST framework \cite{django_rest_framework}, które w znacznym stopniu ułatwia tworzenie Web API. Django REST framework dostarcza wielu gotowych generycznych widoków, które zapewniają na przykład wzorzec [C]RUD dla danego modelu, czy też pozwalają na wyświetlanie całych list obiektów w formie zdefiniowanej przez dostarczoną klasę Serializera.
 
 \subsection{Rejestracja} \label{sec:rejestracja}
 
@@ -146,9 +146,39 @@ W przypadku implementacji 2. skorzystano z zestawu gotowych aplikacji które zos
     \item allauth.account
 \end{itemize}
 Oraz inne aplikacje od których powyższe są zależne. Gotowe rozwiązanie dostarcza mechanizmy do generacji tokenów (logowania) jak i też wylogowywania. Tutaj pojawił się wspomniany w poprzedniej sekcji \ref{sec:rejestracja} problem z modelem użytkownika. Gotowe aplikacjie posiadają wiele ustawień, które należało odpowiednio sparametryzować, by autentykacja odbywała się za pomocą pola "mail". Domyślnie wykorzystywanym polem jest pole "username", które pierwotnie zostało całkowicie usunięte. Aplikacje o których mowa, pomimo że potrafią za pomocą odpowiednich ustawień zmienić motodę autentykacji na pole "mail", do prawidłowego działania wciąż potrzebowały pola "username". Znalezienie problemu i jego rozwiązania było najcięższym problemem w implementacji 2. Projekt był przepisywany trzykrotnie, aby sprostać postawionym w specyfikacji wymaganiom. Finalnie pole username jest sztucznie dodawane do modelu użytkownika, ale zawsze jest ono puste i nigdzie nie jest wykorzystywane.  \\
-W implementacji 2. nie przewidziano umieszczania tokena JWT w plikach ``cookies'' przeglądarki, ponieważ wszystkie testy wykonywane były z poziomu frameworku pytest, lub za pomocą narzędzia Postman.
+W implementacji 2. nie przewidziano umieszczania tokena JWT w plikach ``cookies'' przeglądarki, ponieważ wszystkie testy wykonywane były z poziomu frameworku pytest, lub za pomocą narzędzia Postman, ustawiająć nagłówek "Authorization".
 
 \subsection{Tworzenie ofert}
+
+
+W specyfikacji zdefiniowane zostały dwa typy ofert: aukcja ("auction") oraz kup teraz ("buynow"). Wspólny jest dla nich adres endpointu "/offers". Według specyfikacji zapytanie wysłane pod ten adres metodą GET powinno zwrócić filtrowaną listę ofert (dokłady opis w sekcji \ref{sec:search}). Zapytanie metodą POST z odpowiednim dla danego typu oferty ciałem powinno skutkować utworzeniem nowej oferty i zwrócenie kodu odopowiedzi 201. \\
+
+Przykładowe dane do utworzenia oferty typu "kup teraz":
+\begin{lstlisting}
+{     
+    "type": "buynow"
+    "description" : "some description",
+    "price" : 25.99,
+    "amount": 15
+}
+\end{lstlisting}
+
+Przykładowe dane potrzebne do utworzenia oferty typu "aukcja":
+\begin{lstlisting}
+{     
+    "type": "auction"
+    "description" : "some description",
+    "price" : 25.99,
+    "date": 1547307780
+}
+\end{lstlisting}
+
+Specyfikacja nie precyzuje dokłądnie czy pole "price" w przypadku tworzenia oferty typu "auction" jest obligatoryjna. Pole to oznacza cenę wyjściową licytacji. 
+W implementacji 2. pole "price" podczas tworzenia oferty jest opcjonalne. Jego podanie skutkuje ustawieniem pola "last\_bid". (Dokłady opis przechowywanych i zwracanych przez obiekty danych szczegółowych auckji zostały opisane w sekcji <<<< TODO : /offers/<id> >>>>> \\
+
+Specyfikacja określa pondato, że przy próbie utworzenia nowej oferty przez nie zalogowanego użytkownika się nie powieść, a odpowiedć powinna mieć status 401 - Unauthorized. \\
+W specyfikacji wymieniono też przypadek zwrócenia kodu 403 - Forbidden - kiedy użytkownik jest zalogowany na nieuprawnione konto. W implementacji 2. taki status nie jest nigdzie zwracany, ponieważ specyfikacjia nie określiła jednoznacznie co ten fakt oznacza. W systemie nie przewidziano żadnych ról z niestandardowymi uprawnieniami dla poszczególnych użytkowników (grup użytkowników). \\
+
 
 <TODO> to tylko draft. <todo>
 Opis w specyfikacji, \\
@@ -160,10 +190,25 @@ Opis w specyfikacji, \\
 
 - nadmiarowe pola - serializer jes odrzuca nie generujac bledu. Sprawdzane jest domyslnie tylko to, czy potrzebne pola sa zawarte. Powinno byc 400 wg. specyfikacji
 
-
-
 \subsection{Kupowanie / licytacja}
-\subsection{Przeglądanie ofert wraz z filtrowaniem}
+\subsection{Przeglądanie ofert}
+\subsubsection{Lista ofert wraz z filtrowaniem}\label{sec:search}
+/offers
+
+\subsubsection{Szczegóły oferty}\label{sec:details}
+
+TODO - TO TYLKO DRAFT
+
+/offers/<offer\_id>
+
+GET
+
+PATCH - modyfikacja oferty
+- wymagania - tylko wlasciciel oferty
+- lista pol mozliwa do edycji
+
+DELETE
+
 
 \section{Podsumowanie}
 
