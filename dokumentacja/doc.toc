@@ -6,7 +6,7 @@
 \contentsline {subsubsection}{\numberline {2.1.1}Implementacja 1}{2}
 \contentsline {subsubsection}{\numberline {2.1.2}Implementacja 2}{2}
 \contentsline {subsection}{\numberline {2.2}Rejestracja}{2}
-\contentsline {subsection}{\numberline {2.3}Logowanie}{3}
+\contentsline {subsection}{\numberline {2.3}Logowanie}{2}
 \contentsline {subsection}{\numberline {2.4}Tworzenie ofert}{3}
 \contentsline {subsection}{\numberline {2.5}Kupowanie / licytacja}{3}
 \contentsline {subsection}{\numberline {2.6}Przegl\IeC {\k a}danie ofert wraz z filtrowaniem}{3}

@@ -7,7 +7,6 @@ offers get filtry niewyspecyfikowane (kolejność, czy musza byc?)
 created_by_me lepiej jak by było nullem
 get offers nie specyfikuje czy tylko id, czy cały json
 get offers powinno byc 404 zamiast 400 
-czy tylko zalogowani mogą listowac oferty
 patch offer bad request or bad fielr, albo jedno albo drugie
 co jest id usera? mail wystarcza; a jednak jest: przy get::offers/id/ ma byc int, nie poprawiam
 w koncu nie ustalilismy bidu wejsciowego
