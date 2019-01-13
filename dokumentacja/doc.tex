@@ -117,19 +117,26 @@ Kod źródłowy można znaleźć pod poniższym linkiem:\\
 
 \subsubsection{Implementacja 2}
 
-<TODO> Artur, jak leci? </TODO>
+W drógiej implementacji postanowiono wykorzystać język Python. W języku tym dostępnych jest kilka frameworków pozwalających na stworzenie aplikacji webowej, są to między innymi:
+\begin{itemize}
+    \item Tornado
+    \item Flask
+    \item Django
+\end{itemize}
+
+Na potrzeby projektu zdecydowano się wykorzystać framework Django, który opiera się o wzorzec architektoniczny model-template-view. Zakres implementacji określał jedynie zbudowanie interfejsu w protokole HTTO (Web API), dlatego pełne możliwości fremeworku nie zostały wykorzystane. Niemniej jednak odseparowanie logiki biznesowej od modeli w bazie danych oraz łatwość zarządzenia tymi modelami przeważyła nad wyborem właśnie tego frameworku. W implementacji wykorzystano ponadto narzędzie Django REST framework \cite{django_rest_framework}, który w znacznym stopniu ułatwia tworzenie Web API. Django REST framework dostarcza wielu gotowych generycznych klas, które zapewniają na przykład wzorzec CRUD dla danego obiektu, czy też pozwalają na wyświetlanie całych list obiektów w formie zdefiniowanej przez dostarczoną klasę Serializera.
 
 \subsection{Rejestracja} \label{sec:rejestracja}
 
 Mogłoby się wydawać, że tak prosty \textsl{endpoint} jak rejestracja nie powinien spowodować dużych rozbieżności. Niemniej jednak niedociągnięcia specyfikacji pozostawiają pole do różnych interpretacji.\\
-W ciele zapytania POST podczas rejestracji wysyłana jest struktura JSON z dwoma polami: mail oraz password. Wartość pola mail musi być oczywiście niepowtarzalna. Istniej zatem możliwość aby użyć jej jako identfikatora danego użytkownika, zarówno w bazie danych jak i w aplikacji. Tak postanowiono zrobić w implementacji 1., gdzie mail jest kluczem pierwotnym dla użytkownika. <TODO> Artur, jak z tym mailem u cb? </TODO> \\
-Następnie należy rozpatrzyć przypadek, którego specyfikacja nie przewiduje. Gdy nie uda się poprawnie zinterpretować przesłanych danych jako JSON, bibliotek Rocket obsłuży taki przypadek wysyłając status 422 (Unprocessable Entity). <TODO> Artur, jak z tym u Cb, dodaj wniosek jak możesz </TODO> \\
-Specyfikacja określa co powinno się stać gdy zapytanie zostanie wysłane poprawnie za wyjątkiem typu metody HTTP. W takim przypadku powinien zostać zwrócony status 405 (Method Not Allowed). W przypadku implementacji 1. skutkuje to bardzo dużym nakładem mało istotnej pracy. Rocket, gdy nie uda mu się dopasować żadnego istniejącego endpointu, wysyła domyślnie status 404 (Not Found). Dzieje się tak również w przypadku gdy nie znajdzie odpowiedniej metody HTTP, nawet jeśli reszta parametrów się zgadza. Aby otrzymać zgodność ze specyfikacją należałoby więc utworzyć endpointy dla wszystkich możliwych metod protokołu HTTP, których jedyną odpowiedzialnością byłoby wysłanie błędu o statusie 405. W implementacji 1. zdecydowano się nadpisać tylko metody get, put oraz delete. <TODO> Artur, a jak z tym u Cb? </TODO>
+Specyfikacja określała, że do rejestracji użytkownika potrzebne jest wysłanie zapytania POST które w swoim ciele zawiera strukturę JSON z dwoma polami: "mail" oraz "password". Wartość pola "mail" musi być oczywiście niepowtarzalna. Istniej zatem możliwość aby użyć jej jako identfikatora danego użytkownika, zarówno w bazie danych jak i w aplikacji. Postanowiono tak zrobić w niezależnie w obydwu implementacjach, gdzie mail jest kluczem pierwotnym dla użytkownika. \\
+Następnie należy rozpatrzyć przypadek, którego specyfikacja nie określa jednoznacznie. Gdy nie uda się poprawnie zinterpretować przesłanych danych jako JSON, bibliotek Rocket obsłuży taki przypadek wysyłając status 422 (Unprocessable Entity). W implementacji 2, serwer django zwraca kod 415 wraz z informacją: 'Unsupported media type "text/plain" in request.' jeśli podano zły nagłówek Content-Type, ale jeśli nagłówek jest poprawny, czyli ma wartość "application/json", to kod odpowiedzi jest zgodny z wymienionym w specyfikacji kodem 400 (Bad Request). Wszystkie wymienione wyżej kody i ich interpretacja są, jak w przypadku wielu innych kodów odpowiedz HTTP kwestią subiektywną i silnie zależą od interpretacji, dlatego projektując system należy zwrócić szczególną uwagę na zdefiniowanie zachowania Web API dla wszystkich potencjalnych sytuacji, zwłacza, jeśli bazując na kodzie odpowiedzi aplikacja wykorzystująca dane API będzie podejmowała konkretne działania. \\
+Specyfikacja określa co powinno się stać gdy zapytanie zostanie wysłane poprawnie za pomocą innej niż POST metody HTTP. W takim przypadku powinien zostać zwrócony status 405 (Method Not Allowed). W przypadku implementacji 1. skutkuje to bardzo dużym nakładem mało istotnej pracy. Rocket, gdy nie uda mu się dopasować żadnego istniejącego endpointu, wysyła domyślnie status 404 (Not Found). Dzieje się tak również w przypadku gdy nie znajdzie odpowiedniej metody HTTP, nawet jeśli reszta parametrów się zgadza. Aby otrzymać zgodność ze specyfikacją należałoby więc utworzyć endpointy dla wszystkich możliwych metod protokołu HTTP, których jedyną odpowiedzialnością byłoby wysłanie błędu o statusie 405. W implementacji 1. zdecydowano się nadpisać tylko metody get, put oraz delete. W implementacji 2. w przypadku wykorzystania generycznych widoków w postaci klas problem jest rozwiązany automatycznie. Wykorzystanie nie zdefiniowanej metody dla zarejestrowanego adresu url zawsze skutkuje zwróceniem statusu 405, chyba, że zachowanie to zastanie świadomie nadpisane. \\
+W implementacji 2. natknięto się na inny istotny problem. Framework Django dostarcza domyślną obsługę modelu użytkownika. Problem polega na tym, że zdefiniowany przez nas sposób reprezentacji użytkownika wymagał wprowadzenia bardzo wielu czasochłonnych zmian. Samo wprowadzenie niestandardowego modelu nie jest skomplikowane, ale dostosowanie pozostałych gotowych wteczek, które tego modelu używają już tak. Problem zostanie opisany dalej w sekcji Logowanie.
 
 \subsection{Logowanie}
 
 Przy implementacji logowania napotkano problemy opisane w sekcji \ref{sec:rejestracja}. Podczas tworzenia specyfikacji postanowiono, że do uwierzytelniania będą wykorzystywane tokeny JWT (JSON Web Token) \cite{jwt}. Jest to jednak elastyczna struktura i jej elementy nie zostały jednoznacznie określone. W przypadku implementacji 1. nagłówek JWT został wygenerowany w sposób domyślny, który używa algorytmu HS256, a ładunkiem tokena zostało tylko pole mail danego użytkownika. W żaden sposób nie został określony czas ważności sesji. <TODO> Artur, jak u Cb z tymi tokenami? też wrzuciłeś JWT do ciasteczek?</TODO>
-
 Rażącym niedopatrzeniem podczas tworzenia dokumentacji jest także fakt, że nie pomyślano o funkcji wylogowwywania. Aby usunąć sesję należy więc zalogować się na konto innego użytkownika albo usunąć pliki ``cookies'' z przeglądarki. 
 
 \subsection{Tworzenie ofert}
@@ -155,6 +162,10 @@ Rażącym niedopatrzeniem podczas tworzenia dokumentacji jest także fakt, że n
 \bibitem{rust}
 \textit{Rust} [online], Data dostępu: 12.01.2019. 
 \newline\url{https://www.rust-lang.org/}.
+
+\bibitem{django_rest_framework}
+\textit{Django REST framework} [online], Data dostępu: 12.01.2019. 
+\newline\url{https://www.django-rest-framework.org/}.
 
 \end{thebibliography} 
 
@@ -284,7 +295,7 @@ POST\\
 401 - Unauthorized (niezalogowany użytkownik)\\
 409 - Conflict:\\
 \indent	409 - \{"minimal\_bid": <minimalny bid>\}\\
-\indent	409 - \{"max\_amout": <ilość dostępnych produktóœ>\}\\
+\indent	409 - \{"max\_amout": <ilość dostępnych produktów>\}\\
 \indent	409 - \{"status": "expired"\}\\
 \indent	409 - \{"conflict": "unable to order own items"\}\\
 \indent	409 - \{"conflict": "you can not bid on the auction you win"\}\\
