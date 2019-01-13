@@ -150,7 +150,6 @@ W implementacji 2. nie przewidziano umieszczania tokena JWT w plikach ``cookies'
 
 \subsection{Tworzenie ofert}
 
-
 W specyfikacji zdefiniowane zostały dwa typy ofert: aukcja ("auction") oraz kup teraz ("buynow"). Wspólny jest dla nich adres endpointu "/offers". Według specyfikacji zapytanie wysłane pod ten adres metodą GET powinno zwrócić filtrowaną listę ofert (dokłady opis w sekcji \ref{sec:search}). Zapytanie metodą POST z odpowiednim dla danego typu oferty ciałem powinno skutkować utworzeniem nowej oferty i zwrócenie kodu odopowiedzi 201. \\
 
 Przykładowe dane do utworzenia oferty typu "kup teraz":
@@ -174,11 +173,19 @@ Przykładowe dane potrzebne do utworzenia oferty typu "aukcja":
 \end{lstlisting}
 
 Specyfikacja nie precyzuje dokłądnie czy pole "price" w przypadku tworzenia oferty typu "auction" jest obligatoryjna. Pole to oznacza cenę wyjściową licytacji. 
-W implementacji 2. pole "price" podczas tworzenia oferty jest opcjonalne. Jego podanie skutkuje ustawieniem pola "last\_bid". (Dokłady opis przechowywanych i zwracanych przez obiekty danych szczegółowych auckji zostały opisane w sekcji <<<< TODO : /offers/<id> >>>>> \\
+W implementacji 2. pole "price" podczas tworzenia oferty jest opcjonalne. Jego podanie skutkuje ustawieniem pola "last\_bid". Przechowywanych i zwracane dane szczegółowe konkretnych ofert zostały opisane w sekcji \ref{sec:details} \\
 
-Specyfikacja określa pondato, że przy próbie utworzenia nowej oferty przez nie zalogowanego użytkownika się nie powieść, a odpowiedć powinna mieć status 401 - Unauthorized. \\
+Specyfikacja określa pondato, że próba utworzenia nowej oferty przez nie zalogowanego użytkownika powinna się nie powieść, a odpowiedć powinna zwracać status 401 - Unauthorized. \\
+W implementacji 2. została ustawiona domyślna klasa uprawniań \textit{rest\_framework.permissions.IsAuthenticated}. Dzięki temu automatycznie wszystkie operacje wymagają uwierzytelnienia, a wyjątkowe uprawnienia zostały nadane osobno dla poszczególnych operacji, które tego wymagały. Przykładem są zapytania o listę lub szczegóły ofert. Dla tych operacji zostały ustawione uprawnienia \textit{IsAuthenticatedOrReadOnly}, które pozwalają na swobodny odczyt danych, ale zabraniają ich modyfikacji nie zalogowanym użytkownikom. \\
+
 W specyfikacji wymieniono też przypadek zwrócenia kodu 403 - Forbidden - kiedy użytkownik jest zalogowany na nieuprawnione konto. W implementacji 2. taki status nie jest nigdzie zwracany, ponieważ specyfikacjia nie określiła jednoznacznie co ten fakt oznacza. W systemie nie przewidziano żadnych ról z niestandardowymi uprawnieniami dla poszczególnych użytkowników (grup użytkowników). \\
 
+Specyfikacja określa kod odpowiedzi 400 (Bad Request) i podaje przykłady:
+\begin{itemize}
+    \item niepoprawny JSON
+    \item brakujące lub nadmiarowe pola
+\end{itemize}
+W implementacji 2. niepoprawny JSON jest obsługiwany automatycznie, jak zostało to opisane wcześniej w sekcji \ref{sec:rejestracja}. Brakujące pola są wyłapywane przez obiekty Serializera, które jednoznacznie określają, jak powinny się nazywać wymagane oraz opcjonalne pola. Nie zotał jednak rozwiązany problem z polami "nadmiarowymi", ponieważ te są przez serializer odrzucane na etapie weryfikacji i nie są dalej przetwarzane. Takie zachowanie wymagałoby nadpisywania domyślnych generycznych widoków, dlatego zostało zaniechane, ponieważ mechanizm weryfikacji i czyszczenia danych przez obiekty Serializerów we frameworku Django był w tym przypadku satysfakcjonujący i dodatkowe pola nie wpływały w żaden sposób na bezpieczeństwo danych w bazie.
 
 <TODO> to tylko draft. <todo>
 Opis w specyfikacji, \\
