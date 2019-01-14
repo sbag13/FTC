@@ -218,21 +218,67 @@ Specyfikacja definiuje możliwe to wykorzystania w adresie url filtry:
     \item "created\_by\_me" - jeśli ustawiony, zapytanie powinno zwracać tylko oferty których zalogowany użytkownik jest właścicielem
 \end{itemize}
 
-W implementacji 2. wykorzystano obiekty Django Q (querry) \cite{django_q}, które pozwalają na wygodne budowanie zapytania wykorzystanego do filtracji listy zwracanej przez bazę danych. Obiekty te pozwalają na elastyczne łączenie warunków, dzięki czemu złożony filtr jest aplikowany wylko raz.
+W implementacji 2. wykorzystano obiekty Django Q (querry) \cite{django_q}, które pozwalają na wygodne budowanie zapytania wykorzystanego do filtracji listy zwracanej przez bazę danych. Obiekty te pozwalają na elastyczne łączenie warunków, dzięki czemu złożony filtr jest aplikowany wylko raz. \\
+
+
+Specyfikacja nie podaje dosłownie jaki warunek powinien być sprawdzany dla filtrów "price\_min" i "price\_max", to znaczy czy ceny mają być większe (mniejsze), czy większe (mniejsze) lub równe. \\
+Boiorąc pod uwagę, że nazwy filtrów zawierają w sobie "max" w implementaji 2. zdecydowano się na warunek większy lub równy (mniejszy lub równy). \\
 
 \subsubsection{Szczegóły oferty}\label{sec:details}
 
-TODO - TO TYLKO DRAFT
+Dla ednpointu /offers/<offer\_id> specyfikacja definiuje model RUD (Retrive-Update-Delete). Wymienione są zachowania (w tym oczekiwane statusy odpowiedzi) dla poszczególnych metod HTTP: GET, PATCH oraz DELETE.
 
-/offers/<offer\_id>
+Metoda GET powinna zwracać szczegóły na temat konkretnej oferty. W przypadku oferty typu "kup teraz" specyfikacja podaje wymagane pola: 
+\begin{itemize}
+    \item "type" - powinien być równy "buynow"
+    \item "description" - opis oferty
+    \item "price" - cena za sztukę
+    \item "amount" - liczba dostępnych sztuk
+\end{itemize}
 
-GET
-- wrzucić przykładowe odpowiedzi z implementacji 1 / 2
+Dla wygody w implementacji 2. odpowiedź jest dodatkowo uzupełniana o "id" konkretnej oferty. Pole zawierające informacje o właścicielu oferty pozostaje ukryte, ponieważ nie wymagała tego specyfikacja:
+\begin{lstlisting}
+{
+    "id": 186,
+    "type": "buynow",
+    "description": "Actually piece apply.",
+    "amount": 10,
+    "price": "566.00"
+}
+\end{lstlisting}
 
+Dla oferty typu "aukcja" specyfikacja podaje wymagane pola: 
+\begin{itemize}
+    \item "type" - powinien być równy "auction"
+    \item "description" - opis oferty
+    \item "staus" - określa, czy oferta jest akutalna: "active" lub "expired"
+    \item "last\_bid" - ostatnio licytowana kwota
+    \item "customer\_id" - Id użytkownika, który aktualnie wykrywa daną licytację
+    \item "expiration\_ts" - timestamp, który określa termin zakończenia aukcji
+\end{itemize}
+
+
+W implementacji 2. odpowiedź tak samo jak dla oferty typu "kup teraz" jest uzupełniana o "id" konkretnej oferty. W związku z niejednoznacznie określoną operacją tworzenia oferty (specyfikacja podaje pole "price" które odpowiada cenie wyjściowej aukcji") w implementacji 2. przyjęto, że jeśli podana zostanie cena wyjściowa, to zostanie ona zwracana jako pole "last\_bid". Pole "customer\_id" pozostaje wtedy puste (null):
+\begin{lstlisting}
+{
+    "id": 184,
+    "type": "auction",
+    "description": "Executive feel course them low memory.",
+    "date": 1547552089,
+    "status": "active",
+    "last_bid": "942.00",
+    "customer_id": null
+}
+\end{lstlisting}
+Na powyższej przykładowej odpowiedzi widać ponadto, że popełniony został błąd w nazwie pola "expiration\_ts". Błąd ten wynika z przeoczenia, to samo pole w momencie tworzenia aukcji nazywało się "date". W implemenacji 2. pole to pełni tą samą zakładaną funkcję, ale jest nie zgodne ze specyfikacją. \\
+Na tym błędzie można wysnuć kolejny istotny wniosek. Tworząc specyfikację należy zwrócić uwagę na konflikty w nazwach pól. Przemienne nazywanie tych samych danych w różny sposób może prowadzić (i na ogół prowadz) do niespójności w bazie danych oraz w wysyłanych informacjach. Ma to szczególne znaczenie w rozbudowanych systemach, gdzie w firmie wydzielone są zespoły zajmujące się różnymi odseparowanymi częściami systemu, które komunikują się ze sobą za pomocą interfejsu http (lub innego). Bardzo często dochodzi do sytuacji, że to samo określenie w innym dziale oznacza zupełnie inne operacje / dane. Takie sytuacje prowadzą do tego, że błędy są wychwytywane dopiero w późnym etapie projektu, w momencie integracji poszczególnych części systemu.
+
+
+<todo> \\
 PATCH - modyfikacja oferty
 - wymagania - tylko wlasciciel oferty
 - lista pol mozliwa do edycji
-
+<todo> \\
 DELETE
 
 
