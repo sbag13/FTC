@@ -32,13 +32,23 @@ impl Offer {
         self.description.clone()
     }
     pub fn as_json(&self) -> String {
-        json!({
-            "type": self.type_,
-            "description": self.description,
-            "price": self.price,
-            "date": self.date_amount
-        })
-        .to_string()
+        if self.type_.as_str() == "buynow" {
+            json!({
+                "type": self.type_,
+                "description": self.description,
+                "price": self.price,
+                "amount": self.date_amount
+            })
+            .to_string()
+        } else {
+            json!({
+                "type": self.type_,
+                "description": self.description,
+                "price": self.price,
+                "date": self.date_amount
+            })
+            .to_string()
+        }
     }
     fn get_price(&self) -> f32 {
         self.price

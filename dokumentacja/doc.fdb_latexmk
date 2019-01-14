@@ -1,6 +1,6 @@
 # Fdb version 3
-["pdflatex"] 1547339061 "/home/sbag/Desktop/FCT_aukcja/dokumentacja/doc.tex" "doc.pdf" "doc" 1547339061
-  "/home/sbag/Desktop/FCT_aukcja/dokumentacja/doc.tex" 1547339061 13398 4fc951129d1a33396824f5ae21fc7b5b ""
+["pdflatex"] 1547498910 "/home/sbag/Desktop/FCT_aukcja/dokumentacja/doc.tex" "doc.pdf" "doc" 1547498910
+  "/home/sbag/Desktop/FCT_aukcja/dokumentacja/doc.tex" 1547498909 31995 45b788be73c5d77c7a46005692b40894 ""
   "/usr/share/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1543696176 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/share/texmf-dist/fonts/map/fontname/texfonts.map" 1543696176 3332 103109f5612ad95229751940c61aada0 ""
   "/usr/share/texmf-dist/fonts/tfm/jknappen/ec/ecbx1200.tfm" 1543696176 3584 402da0b29eafbad07963b1224b222f18 ""
@@ -95,11 +95,11 @@
   "/usr/share/texmf-dist/web2c/texmf.cnf" 1543696176 33301 a3134070eacafb10b1f371612ce2650d ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1546462057 2838912 b46f507ebff11309c57c53ad13977ef4 ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1546462054 7910427 27c6e717a783e630bf9c50d87f75c2f7 ""
-  "doc.aux" 1547339061 1470 bdd0cf138c8372874f3b9f26749e64de ""
-  "doc.tex" 1547339061 13398 4fc951129d1a33396824f5ae21fc7b5b ""
-  "doc.toc" 1547339061 982 f6790dca7b34daf24783fbe28ba5b94c ""
+  "doc.aux" 1547498910 1873 336e097b96749a2d5d8fab006a85ae9e ""
+  "doc.tex" 1547498909 31995 45b788be73c5d77c7a46005692b40894 ""
+  "doc.toc" 1547498910 1135 c7e6e0b5fe01f9708833cc37fa647a2e ""
   (generated)
-  "doc.pdf"
-  "doc.toc"
   "doc.aux"
   "doc.log"
+  "doc.toc"
+  "doc.pdf"

@@ -172,27 +172,29 @@ Przykładowe dane potrzebne do utworzenia oferty typu "aukcja":
 }
 \end{lstlisting}
 
-Specyfikacja nie precyzuje dokłądnie czy pole "price" w przypadku tworzenia oferty typu "auction" jest obligatoryjna. Pole to oznacza cenę wyjściową licytacji. 
-W implementacji 2. pole "price" podczas tworzenia oferty jest opcjonalne. Jego podanie skutkuje ustawieniem pola "last\_bid". Przechowywanych i zwracane dane szczegółowe konkretnych ofert zostały opisane w sekcji \ref{sec:details}. W specyfikacij nie napisano wprost, ale wynika to z listy testów akceptacyjnych, że zarówno pole "price" jaki i "amount" nie może być ujemne. W implementacji 2. zdroworozsądkowo założono też, że "amount" - czyli dostępna liczba sztuk towaru, musi być liczbą naturalną (typu integer). \\
+W implementacji 1. parametr price został uznany za obligatoryjny. Pole to oznacza cenę wyjściową licytacji lub cenę przedmiotu w przypadku oferty typu ``buynow''. W implementacji 2. pole "price" podczas tworzenia oferty jest opcjonalne. Jego podanie skutkuje ustawieniem pola "last\_bid". Przechowywane i zwracane dane szczegółowe konkretnych ofert zostały opisane w sekcji \ref{sec:details}. W specyfikacij nie napisano wprost, ale wynika to z listy testów akceptacyjnych, że zarówno pole "price" jaki i "amount" nie może być ujemne. W implementacji 2. zdroworozsądkowo założono też, że "amount" - czyli dostępna liczba sztuk towaru, musi być liczbą naturalną (typu integer). W implementacji 1. takich założeń nie poczyniono. \\
 
 Specyfikacja określa pondato, że próba utworzenia nowej oferty przez nie zalogowanego użytkownika powinna się nie powieść, a odpowiedć powinna zwracać status 401 - Unauthorized. \\
-W implementacji 2. została ustawiona domyślna klasa uprawniań \textit{rest\_framework.permissions.IsAuthenticated}. Dzięki temu automatycznie wszystkie operacje wymagają uwierzytelnienia, a wyjątkowe uprawnienia zostały nadane osobno dla poszczególnych operacji, które tego wymagały. Przykładem są zapytania o listę lub szczegóły ofert. Dla tych operacji zostały ustawione uprawnienia \textit{IsAuthenticatedOrReadOnly}, które pozwalają na swobodny odczyt danych, ale zabraniają ich modyfikacji nie zalogowanym użytkownikom. \\
+W implementacji 2. została ustawiona domyślna klasa uprawniań \newline \textit{rest\_framework.permissions.IsAuthenticated}. Dzięki temu automatycznie wszystkie operacje wymagają uwierzytelnienia, a wyjątkowe uprawnienia zostały nadane osobno dla poszczególnych operacji, które tego wymagały. Przykładem są zapytania o listę lub szczegóły ofert. Dla tych operacji zostały ustawione uprawnienia \textit{IsAuthenticatedOrReadOnly}, które pozwalają na swobodny odczyt danych, ale zabraniają ich modyfikacji nie zalogowanym użytkownikom. W implementacji 1. uprawnienia są sprawdzane wyłącznie w przypadkach opisywanych przez specyfikację i nie ma ustawionych żadnych domyślnych zachowań.\\
 
-W specyfikacji wymieniono przypadek zwrócenia kodu 403 - Forbidden - kiedy użytkownik jest zalogowany na nieuprawnione konto. W implementacji 2. taki status nie jest nigdzie zwracany, ponieważ specyfikacjia nie określiła jednoznacznie co ten fakt oznacza. W systemie nie przewidziano żadnych ról z niestandardowymi uprawnieniami dla poszczególnych użytkowników (grup użytkowników). \\
+W specyfikacji wymieniono przypadek zwrócenia kodu 403 - Forbidden - kiedy użytkownik jest zalogowany na nieuprawnione konto. W obu implementacjach taki status nie jest nigdzie zwracany, ponieważ specyfikacjia nie określiła jednoznacznie co ten fakt oznacza. W systemie nie przewidziano żadnych ról z niestandardowymi uprawnieniami dla poszczególnych użytkowników (grup użytkowników).\\
 
 Specyfikacja określa kod odpowiedzi 400 (Bad Request) i podaje przykłady:
 \begin{itemize}
     \item niepoprawny JSON
     \item brakujące lub nadmiarowe pola
 \end{itemize}
-W implementacji 2. niepoprawny JSON jest obsługiwany automatycznie, jak zostało to opisane wcześniej w sekcji \ref{sec:rejestracja}. Brakujące pola są wyłapywane przez obiekty Serializera, które jednoznacznie określają, jak powinny się nazywać wymagane oraz opcjonalne pola. Nie zotał jednak rozwiązany problem z polami "nadmiarowymi", ponieważ te są przez serializer odrzucane na etapie weryfikacji i nie są dalej przetwarzane. Takie zachowanie wymagałoby nadpisywania domyślnych generycznych widoków, dlatego zostało zaniechane, ponieważ mechanizm weryfikacji i czyszczenia danych przez obiekty Serializerów we frameworku Django był w tym przypadku satysfakcjonujący i dodatkowe pola nie wpływały w żaden sposób na bezpieczeństwo danych w bazie.
+W obu implementacjach niepoprawny JSON jest obsługiwany automatycznie, jak zostało to opisane w sekcji \ref{sec:rejestracja}. Brakujące pola są wyłapywane przez obiekty serializujące, które jednoznacznie określają, jak powinny się nazywać wymagane oraz opcjonalne pola. Nie zotał jednak rozwiązany problem z polami "nadmiarowymi", ponieważ te są przez serializer odrzucane na etapie weryfikacji i nie są dalej przetwarzane. Takie zachowanie wymagałoby nadpisywania domyślnych generycznych widoków, dlatego zostało zaniechane, ponieważ mechanizm weryfikacji i czyszczenia danych przez obiekty Serializerów we frameworku Django był w tym przypadku satysfakcjonujący i dodatkowe pola nie wpływały w żaden sposób na bezpieczeństwo danych w bazie.
 
 \subsection{Kupowanie / licytacja}
+
+W przypadku implementacji 1. nie ma żadnych rozbieżności w stosunku do specyfikacji dla endpointu \texttt{/offers/{id}/buy}. Informacje o dokonanych zakupach oraz o licytacjach są przechowywane w jednej tabeli bazy danych \texttt{transactions}. Każda transakcja posiada pola: \texttt{id}, \texttt{offer\_id}(klucz obcy do oferty), \texttt{buyer}(klucz obcy do użytkownika), \texttt{amount}(opcjonalne pole dla offert typu ``buynow''), \texttt{bid}(opcjonalne pole dla ofert typu ``auction''). 
+
 \subsection{Przeglądanie ofert}
 \subsubsection{Lista ofert wraz z filtrowaniem}\label{sec:search}
-W odpowiedzi na zapytanie GET /offers serwer powinien zwracać listę ofert dla każdego użytkownika - nie zależnie od tego, czy jest on zalogowany czy nie. Takie wymagania zostały zdefiniowane w testach akceptacujnych, ze specyfikacji nie wynika to wprost. Specyfikacja nie określa też w żaden sposób formy w jakiej ma być zwracana lista ofert. Jedyna klarowna informacja na ten temat to założenie, że jeśli użyte zostaną filtry i żadna z ofert nie będzie spełniała wymagań, to zwrócona zostanie pusta lista "\lbrack\rbrack". \\
+W odpowiedzi na zapytanie GET \texttt{/offers} serwer powinien zwracać listę ofert dla każdego użytkownika - nie zależnie od tego, czy jest on zalogowany czy nie. Takie wymagania zostały zdefiniowane w testach akceptacujnych, ze specyfikacji nie wynika to wprost. Specyfikacja nie określa też w żaden sposób formy w jakiej ma być zwracana lista ofert. Jedyna klarowna informacja na ten temat to założenie, że jeśli użyte zostaną filtry i żadna z ofert nie będzie spełniała wymagań, to zwrócona zostanie pusta lista \texttt{"\lbrack\rbrack"}. \\
 
-W implementacji 2. zastosowano dziedziczenie klas ofert "aukcji" i "kup teraz" po wspólnej klasie oferty. Klasa ta zawiera wspólne pola takie jak id. operacji, opis "description" oraz pole zawierające informację o id właściciela. Do zwracania listy wykorzystano serializer, który zwraca jedynie id oferty, jej opis oraz typ. Założono, że informacje szczegółowe będą dostępne za pośrednictwem endopintu "/offers/<offer\_id>", opisanego w sekcji \ref{sec:details}. Przykładowa odpowiedź wygląda więc następująco:
+W implementacji 2. zastosowano dziedziczenie klas ofert "aukcji" i "kup teraz" po wspólnej klasie oferty. Klasa ta zawiera wspólne pola takie jak id. operacji, opis "description" oraz pole zawierające informację o id właściciela. Do zwracania listy wykorzystano serializator, który zwraca jedynie id oferty, jej opis oraz typ. Założono, że informacje szczegółowe będą dostępne za pośrednictwem endopintu "/offers/<offer\_id>", opisanego w sekcji \ref{sec:details}. Przykładowa odpowiedź wygląda więc następująco:
 \begin{lstlisting}
 [
     {     
@@ -208,8 +210,9 @@ W implementacji 2. zastosowano dziedziczenie klas ofert "aukcji" i "kup teraz" p
     ...
 ]	
 \end{lstlisting}
+W implementacji 1. każda oferta w odpowiedzi zawiera jeszcze pole ``amount'' bądź ``date'', zależnie od typu oferty.
 
-Specyfikacja definiuje możliwe to wykorzystania w adresie url filtry:
+Specyfikacja definiuje możliwe do wykorzystania w adresie url filtry:
 \begin{itemize}
     \item "contains" - wyrażenie które będzie szukane w opisie oferty
     \item "price\_min" - cena minimalna (w przypadku aukcji ostatnio licytowana kwota)
@@ -218,11 +221,12 @@ Specyfikacja definiuje możliwe to wykorzystania w adresie url filtry:
     \item "created\_by\_me" - jeśli ustawiony, zapytanie powinno zwracać tylko oferty których zalogowany użytkownik jest właścicielem
 \end{itemize}
 
+W implementacji 1. napotkano nieprzwidziane komplikacje spowodowane faktem, że słowo ``type'' jest słowem kluczowym języka Rust. Niemożliwym było więc skorzystanie z automatycznego przypisywania parametrów do zmiennych, jako że nie da się zadeklarować zmiennej \texttt{type}. Rozwiązanie w tym przypadku wymagało obudowania wartości w formularz. Opracowanie rozwiązania pochłoneło znaczną ilość czasu.
+
 W implementacji 2. wykorzystano obiekty Django Q (querry) \cite{django_q}, które pozwalają na wygodne budowanie zapytania wykorzystanego do filtracji listy zwracanej przez bazę danych. Obiekty te pozwalają na elastyczne łączenie warunków, dzięki czemu złożony filtr jest aplikowany wylko raz. \\
 
-
 Specyfikacja nie podaje dosłownie jaki warunek powinien być sprawdzany dla filtrów "price\_min" i "price\_max", to znaczy czy ceny mają być większe (mniejsze), czy większe (mniejsze) lub równe. \\
-Boiorąc pod uwagę, że nazwy filtrów zawierają w sobie "max" w implementaji 2. zdecydowano się na warunek większy lub równy (mniejszy lub równy). \\
+Boiorąc pod uwagę, że nazwy filtrów zawierają w sobie "max" w implementaji 2. zdecydowano się na warunek większy lub równy (mniejszy lub równy). Inaczej jest w przypadku implementacji 1., gdzie warunki nie zawierają w sobie równości. \\
 
 \subsubsection{Szczegóły oferty}\label{sec:details}
 
@@ -236,7 +240,7 @@ Metoda GET powinna zwracać szczegóły na temat konkretnej oferty. W przypadku 
     \item "amount" - liczba dostępnych sztuk
 \end{itemize}
 
-Dla wygody w implementacji 2. odpowiedź jest dodatkowo uzupełniana o "id" konkretnej oferty. Pole zawierające informacje o właścicielu oferty pozostaje ukryte, ponieważ nie wymagała tego specyfikacja:
+Dla wygody w implementacji 2. odpowiedź jest dodatkowo uzupełniana o "id" konkretnej oferty. W przypadku implementacji 1. zwracane są tylko pola wymienione w specyfikacji. W implementacji 2. pole zawierające informacje o właścicielu oferty pozostaje ukryte, ponieważ nie wymagała tego specyfikacja:
 \begin{lstlisting}
 {
     "id": 186,
@@ -257,8 +261,19 @@ Dla oferty typu "aukcja" specyfikacja podaje wymagane pola:
     \item "expiration\_ts" - timestamp, który określa termin zakończenia aukcji
 \end{itemize}
 
-
-W implementacji 2. odpowiedź tak samo jak dla oferty typu "kup teraz" jest uzupełniana o "id" konkretnej oferty. W związku z niejednoznacznie określoną operacją tworzenia oferty (specyfikacja podaje pole "price" które odpowiada cenie wyjściowej aukcji") w implementacji 2. przyjęto, że jeśli podana zostanie cena wyjściowa, to zostanie ona zwracana jako pole "last\_bid". Pole "customer\_id" pozostaje wtedy puste (null):
+W implementacji 2. odpowiedź tak samo jak dla oferty typu "kup teraz" jest uzupełniana o "id" konkretnej oferty, co również nie ma miejsca w przypadku implementacji 1. W związku z niejednoznacznie określoną operacją tworzenia oferty (specyfikacja podaje pole "price" które odpowiada cenie wyjściowej aukcji") w implementacji 2. przyjęto, że jeśli podana zostanie cena wyjściowa, to zostanie ona zwracana jako pole "last\_bid". Pole "customer\_id" pozostaje wtedy puste (null). W implemenacji 1. uznano pole ``price'' za obligatoryjne, z racji na następujący znak '*' po nazwie, więc pole ``last\_bid'' zawsze zwróci jakąś wartość jeśli oferta istnieje. Natomiast pole ``customer\_id'' będzie pustym ciągiem znaków(""), jeśli nikt jeszcze nie licytował danego przedmiotu. Jest to następstwem tego, że w implementacji 1. identyfikatorem użytkownika jest jego mail, także w bazie danych.\\
+Implementacja 1:
+\begin{lstlisting}
+{
+    "type":"auction",
+    "description":"taktakta",
+    "status":"expired",
+    "last_bid":32.5,
+    "customer_id":"",
+    "expiration_ts":64
+}
+\end{lstlisting}
+Implementacja 2:
 \begin{lstlisting}
 {
     "id": 184,
@@ -270,19 +285,17 @@ W implementacji 2. odpowiedź tak samo jak dla oferty typu "kup teraz" jest uzup
     "customer_id": null
 }
 \end{lstlisting}
+
 Na powyższej przykładowej odpowiedzi widać ponadto, że popełniony został błąd w nazwie pola "expiration\_ts". Błąd ten wynika z przeoczenia, to samo pole w momencie tworzenia aukcji nazywało się "date". W implemenacji 2. pole to pełni tą samą zakładaną funkcję, ale jest nie zgodne ze specyfikacją. \\
-Na tym błędzie można wysnuć kolejny istotny wniosek. Tworząc specyfikację należy zwrócić uwagę na konflikty w nazwach pól. Przemienne nazywanie tych samych danych w różny sposób może prowadzić (i na ogół prowadz) do niespójności w bazie danych oraz w wysyłanych informacjach. Ma to szczególne znaczenie w rozbudowanych systemach, gdzie w firmie wydzielone są zespoły zajmujące się różnymi odseparowanymi częściami systemu, które komunikują się ze sobą za pomocą interfejsu http (lub innego). Bardzo często dochodzi do sytuacji, że to samo określenie w innym dziale oznacza zupełnie inne operacje / dane. Takie sytuacje prowadzą do tego, że błędy są wychwytywane dopiero w późnym etapie projektu, w momencie integracji poszczególnych części systemu.
+Na tym błędzie można wysnuć kolejny istotny wniosek. Tworząc specyfikację należy zwrócić uwagę na konflikty w nazwach pól. Przemienne nazywanie tych samych danych w różny sposób może prowadzić (i na ogół prowadzą) do niespójności w bazie danych oraz w wysyłanych informacjach. Ma to szczególne znaczenie w rozbudowanych systemach, gdzie w firmie wydzielone są zespoły zajmujące się różnymi odseparowanymi częściami systemu, które komunikują się ze sobą za pomocą interfejsu http (lub innego). Bardzo często dochodzi do sytuacji, że to samo określenie w innym dziale oznacza zupełnie inne operacje / dane. Takie sytuacje prowadzą do tego, że błędy są wychwytywane dopiero w późnym etapie projektu, w momencie integracji poszczególnych części systemu.
 
-
-<todo> \\
-PATCH - modyfikacja oferty
-- wymagania - tylko wlasciciel oferty
-- lista pol mozliwa do edycji
-<todo> \\
-DELETE
-
+Metody PATCH i DELETE dla \texttt{/offers/\{id\}} nie przysporzyły żadnych problemów i działają w sposób intuicyjny, zgodny z dokumentacją i przypadkami testowymi. Niemniej jednak specyfikacja nie precyzuje, że tylko właściciel oferty może ją zmieniać, ale można to wywnioskować z opisu testów systemu.
 
 \section{Podsumowanie}
+
+Celem projektu było pokazanie jak bardzo różne mogą powstać implementacje systemu opartego o tę samą specyfikację. Jak widać duże rozbieżności mogą powstać nawet w przypadku prostego systemu, składającego się z kilku funkcji. Główną przyczyną jest oczywiście czynnik ludzki. Na przykład preferencje programistów oraz wybór technologi prowadzi do sytuacji, w których korzysta się z gotowych rozwiązań dostarczanych przez frameworki. Może to skutkować między innymi różnymi zachowaniami w sytuacjach nie przewidzianych przez specyfikację, bądź nawet zmianą funkcji z uwagi na alternatywny nakład pracy. Opisany efekt jest dodatkowo potęgowany niską jakością wykonanej specyfikacji systemu. Na jej stworzenie poświęcono zbyt mało czasu. Nie przewidziano wielu problematycznych przypadków, a nawet zabrakło określenia tak podstawowych spraw jak na przykład wartości graniczne podczas filtrowania. Błędy koncepcyjne i niedociągnięcia, które powstały na pierwszym etapie mają tym większe odzwierciedlenie w powstałych róznicach między produktami końcowymi, które są zaskakująco wydatne.
+
+\newpage
 
 \begin{thebibliography}{9}
 
@@ -298,7 +311,7 @@ DELETE
 \textit{Rocket - Simple, Fast, Type-Safe Web Framework for Rust} [online], Data dostępu: 12.01.2019. 
 \newline\url{https://rocket.rs/}.
 
-\bibitem{rust}
+\bibitem{rust} 
 \textit{Rust} [online], Data dostępu: 12.01.2019. 
 \newline\url{https://www.rust-lang.org/}.
 
