@@ -184,11 +184,15 @@ Specyfikacja określa kod odpowiedzi 400 (Bad Request) i podaje przykłady:
     \item niepoprawny JSON
     \item brakujące lub nadmiarowe pola
 \end{itemize}
-W obu implementacjach niepoprawny JSON jest obsługiwany automatycznie, jak zostało to opisane w sekcji \ref{sec:rejestracja}. Brakujące pola są wyłapywane przez obiekty serializujące, które jednoznacznie określają, jak powinny się nazywać wymagane oraz opcjonalne pola. Nie zotał jednak rozwiązany problem z polami "nadmiarowymi", ponieważ te są przez serializer odrzucane na etapie weryfikacji i nie są dalej przetwarzane. Takie zachowanie wymagałoby nadpisywania domyślnych generycznych widoków, dlatego zostało zaniechane, ponieważ mechanizm weryfikacji i czyszczenia danych przez obiekty Serializerów we frameworku Django był w tym przypadku satysfakcjonujący i dodatkowe pola nie wpływały w żaden sposób na bezpieczeństwo danych w bazie.
+W obu implementacjach niepoprawny JSON jest obsługiwany automatycznie, jak zostało to opisane w sekcji \ref{sec:rejestracja}. Brakujące pola są wyłapywane przez obiekty serializujące, które jednoznacznie określają, jak powinny się nazywać wymagane oraz opcjonalne pola. Nie został jednak rozwiązany problem z polami "nadmiarowymi", ponieważ te są przez serializer odrzucane na etapie weryfikacji i nie są dalej przetwarzane. Takie zachowanie wymagałoby nadpisywania domyślnych generycznych widoków, dlatego zostało zaniechane, ponieważ mechanizm weryfikacji i czyszczenia danych przez obiekty Serializerów we frameworku Django był w tym przypadku satysfakcjonujący i dodatkowe pola nie wpływały w żaden sposób na bezpieczeństwo danych w bazie.
 
 \subsection{Kupowanie / licytacja}
 
-W przypadku implementacji 1. nie ma żadnych rozbieżności w stosunku do specyfikacji dla endpointu \texttt{/offers/{id}/buy}. Informacje o dokonanych zakupach oraz o licytacjach są przechowywane w jednej tabeli bazy danych \texttt{transactions}. Każda transakcja posiada pola: \texttt{id}, \texttt{offer\_id}(klucz obcy do oferty), \texttt{buyer}(klucz obcy do użytkownika), \texttt{amount}(opcjonalne pole dla offert typu ``buynow''), \texttt{bid}(opcjonalne pole dla ofert typu ``auction''). 
+W obydwu implementacjach nie stwierdzono żadnych rozbieżności w stosunku do specyfikacji dla endpointu \texttt{/offers/{id}/buy}. \\
+W przypadku implementacji 1. informacje o dokonanych zakupach oraz o licytacjach są przechowywane w jednej tabeli bazy danych \texttt{transactions}. Każda transakcja posiada pola: \texttt{id}, \texttt{offer\_id}(klucz obcy do oferty), \texttt{buyer}(klucz obcy do użytkownika), \texttt{amount}(opcjonalne pole dla offert typu ``buynow''), \texttt{bid}(opcjonalne pole dla ofert typu ``auction'').  \\
+W implementacji 2. pominięto mechanizm przechowywania informacji o dokonanych transakcjach - potraktowano go jako wykraczający poza wymagania specyfikacji. W implementacji zadbano o zabezpieczenia wynikające o założonych testów akceptacyjnych. Zabronione jest kupowanie przedmiotów w ofertach, których zalogowany użytkownik jest włacicielem. Nie jest też możliwe ponowne licytowanie aukcji, którą dany użytkownik aktualnie wygrywa.
+
+
 
 \subsection{Przeglądanie ofert}
 \subsubsection{Lista ofert wraz z filtrowaniem}\label{sec:search}
