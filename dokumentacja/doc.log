@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018/Arch Linux) (preloaded format=pdflatex 2019.1.2)  16 JAN 2019 00:17
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018/Arch Linux) (preloaded format=pdflatex 2019.1.2)  16 JAN 2019 00:24
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -318,113 +318,123 @@ Overfull \hbox (30.0pt too wide) in paragraph at lines 118--120
 [] 
  []
 
-[3]
-Underfull \hbox (badness 10000) in paragraph at lines 156--157
 
- []
-
-[4]
-Underfull \hbox (badness 10000) in paragraph at lines 178--179
-
+Overfull \hbox (30.0pt too wide) in paragraph at lines 132--134
+[] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 180--182
+Overfull \hbox (30.0pt too wide) in paragraph at lines 135--137
+[] 
+ []
+
+[3] [4]
+Underfull \hbox (badness 10000) in paragraph at lines 162--163
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 183--184
+Underfull \hbox (badness 10000) in paragraph at lines 184--185
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 186--188
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 189--190
 
  []
 
 [5]
-Overfull \hbox (9.27298pt too wide) in paragraph at lines 194--197
+Overfull \hbox (9.27298pt too wide) in paragraph at lines 200--203
 \T1/cmr/m/n/12 wa-ne w jed-nej ta-be-li ba-zy da-nych \T1/cmtt/m/n/12 transactions\T1/cmr/m/n/12 . Ka»-da trans-ak-cja po-sia-da po-la: \T1/cmtt/m/n/12 id\T1/cmr/m/n/12 , \T1/cmtt/m/n/12 offer_id\T1/cmr/m/n/12 (klucz
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 202--203
+Underfull \hbox (badness 10000) in paragraph at lines 208--209
 
  []
 
 [6]
-Underfull \hbox (badness 10000) in paragraph at lines 233--234
+Underfull \hbox (badness 10000) in paragraph at lines 239--240
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 235--237
+Underfull \hbox (badness 10000) in paragraph at lines 241--243
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 271--273
+Underfull \hbox (badness 10000) in paragraph at lines 277--279
 
  []
 
 [7] [8] [9]
-Underfull \hbox (badness 10000) in paragraph at lines 467--468
+Underfull \hbox (badness 10000) in paragraph at lines 473--474
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 467--468
+Underfull \hbox (badness 10000) in paragraph at lines 473--474
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 467--468
+Underfull \hbox (badness 10000) in paragraph at lines 473--474
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 467--468
+Underfull \hbox (badness 10000) in paragraph at lines 473--474
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 467--468
+Underfull \hbox (badness 10000) in paragraph at lines 473--474
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 467--468
+Underfull \hbox (badness 10000) in paragraph at lines 473--474
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 467--468
+Underfull \hbox (badness 10000) in paragraph at lines 473--474
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 467--468
+Underfull \hbox (badness 10000) in paragraph at lines 473--474
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 467--468
+Underfull \hbox (badness 10000) in paragraph at lines 473--474
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 467--468
+Underfull \hbox (badness 10000) in paragraph at lines 473--474
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 467--468
+Underfull \hbox (badness 10000) in paragraph at lines 473--474
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 467--468
+Underfull \hbox (badness 10000) in paragraph at lines 473--474
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 467--468
+Underfull \hbox (badness 10000) in paragraph at lines 473--474
 
  []
 
@@ -432,13 +442,13 @@ Underfull \hbox (badness 10000) in paragraph at lines 467--468
 Here is how much of TeX's memory you used:
  4866 strings out of 492639
  66189 string characters out of 6135498
- 163235 words of memory out of 5000000
+ 164235 words of memory out of 5000000
  8662 multiletter control sequences out of 15000+600000
  21972 words of font info for 50 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 37i,7n,32p,1409b,1577s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 37i,7n,32p,1409b,1024s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}</usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfbx1728.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfbx2074.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfbx2488.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfrm1440.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfsl1200.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfti1200.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sftt1000.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sftt1200.pfb>
-Output written on .//doc.pdf (12 pages, 292571 bytes).
+Output written on .//doc.pdf (12 pages, 292910 bytes).
 PDF statistics:
  96 PDF objects out of 1000 (max. 8388607)
  68 compressed objects within 1 object stream
