@@ -129,6 +129,12 @@ W drugiej implementacji postanowiono wykorzystać język Python. W języku tym d
 
 Na potrzeby projektu zdecydowano się wykorzystać framework Django, który opiera się o wzorzec architektoniczny model-template-view. Zakres implementacji określał jedynie zbudowanie interfejsu w protokole HTTP (Web API), dlatego pełne możliwości fremeworku nie zostały wykorzystane. Niemniej jednak odseparowanie logiki biznesowej od modeli w bazie danych oraz łatwość zarządzenia tymi modelami przeważyła nad wyborem właśnie tego frameworku. W implementacji wykorzystano ponadto narzędzie Django REST framework \cite{django_rest_framework}, które w znacznym stopniu ułatwia tworzenie Web API. Django REST framework dostarcza wielu gotowych generycznych widoków, które zapewniają na przykład wzorzec [C]RUD dla danego modelu, czy też pozwalają na wyświetlanie całych list obiektów w formie zdefiniowanej przez dostarczoną klasę Serializera.
 
+Kod źródłowy: \\
+\centerline{\url{https://github.com/sbag13/FTC/tree/master/walasz}}
+
+Wyniki testów automatycznych: \\
+\centerline{\url{https://github.com/sbag13/FTC/tree/master/test_results_walasz.pdf}}
+
 \subsection{Rejestracja} \label{sec:rejestracja}
 
 Mogłoby się wydawać, że tak prosty \textsl{endpoint} jak rejestracja nie powinien spowodować dużych rozbieżności. Niemniej jednak niedociągnięcia specyfikacji pozostawiają pole do różnych interpretacji.\\
