@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018/Arch Linux) (preloaded format=pdflatex 2019.1.2)  14 JAN 2019 21:48
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018/Arch Linux) (preloaded format=pdflatex 2019.1.2)  16 JAN 2019 00:17
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -181,7 +181,7 @@ Package etexcmds Info: Could not find \expanded.
 (etexcmds)             That can mean that you are not using pdfTeX 1.50 or
 (etexcmds)             that some package has redefined \expanded.
 (etexcmds)             In the latter case, load this package earlier.
-)))) (./doc.aux)
+)))) (.//doc.aux)
 \openout1 = `doc.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 35.
@@ -285,7 +285,9 @@ LaTeX Font Info:    External font `plex10' loaded for size
 (Font)              <10> on input line 43.
 LaTeX Font Info:    External font `plex10' loaded for size
 (Font)              <7> on input line 43.
- (./doc.toc
+ [1
+
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] (.//doc.toc
 LaTeX Font Info:    External font `plex10' loaded for size
 (Font)              <12> on input line 2.
 LaTeX Font Info:    External font `plex10' loaded for size
@@ -296,142 +298,150 @@ LaTeX Font Info:    External font `plex10' loaded for size
 \tf@toc=\write3
 \openout3 = `doc.toc'.
 
- [1
-
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
-Overfull \hbox (15.58015pt too wide) in paragraph at lines 66--67
+ [1]
+Overfull \hbox (15.58015pt too wide) in paragraph at lines 69--70
 \T1/cmr/m/n/12 oraz zbio-ru te-stów ak-cep-ta-cyj-nych [[]] pro-ste-go ser-wi-su au-kcyj-ne-go w ar-chi-tek-tu-rze klient-serwer. 
  []
 
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 70.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 73.
 (/usr/share/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 70.
- [1]
-LaTeX Font Info:    Try loading font information for T1+cmtt on input line 116.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 73.
+ [2]
+LaTeX Font Info:    Try loading font information for T1+cmtt on input line 119.
  (/usr/share/texmf-dist/tex/latex/base/t1cmtt.fd
 File: t1cmtt.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
-Overfull \hbox (30.0pt too wide) in paragraph at lines 115--117
+Overfull \hbox (30.0pt too wide) in paragraph at lines 118--120
 [] 
  []
 
-[2] [3]
-Underfull \hbox (badness 10000) in paragraph at lines 153--154
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 175--176
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 177--179
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 180--181
+[3]
+Underfull \hbox (badness 10000) in paragraph at lines 156--157
 
  []
 
 [4]
-Underfull \hbox (badness 10000) in paragraph at lines 195--196
+Underfull \hbox (badness 10000) in paragraph at lines 178--179
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 226--227
+Underfull \hbox (badness 10000) in paragraph at lines 180--182
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 183--184
 
  []
 
 [5]
-Underfull \hbox (badness 10000) in paragraph at lines 228--230
-
- []
-
-[6] [7] [8]
-Underfull \hbox (badness 10000) in paragraph at lines 460--461
-
+Overfull \hbox (9.27298pt too wide) in paragraph at lines 194--197
+\T1/cmr/m/n/12 wa-ne w jed-nej ta-be-li ba-zy da-nych \T1/cmtt/m/n/12 transactions\T1/cmr/m/n/12 . Ka»-da trans-ak-cja po-sia-da po-la: \T1/cmtt/m/n/12 id\T1/cmr/m/n/12 , \T1/cmtt/m/n/12 offer_id\T1/cmr/m/n/12 (klucz
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 460--461
+Underfull \hbox (badness 10000) in paragraph at lines 202--203
 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 460--461
+[6]
+Underfull \hbox (badness 10000) in paragraph at lines 233--234
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 460--461
+Underfull \hbox (badness 10000) in paragraph at lines 235--237
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 460--461
+Underfull \hbox (badness 10000) in paragraph at lines 271--273
+
+ []
+
+[7] [8] [9]
+Underfull \hbox (badness 10000) in paragraph at lines 467--468
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 460--461
+Underfull \hbox (badness 10000) in paragraph at lines 467--468
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 460--461
+Underfull \hbox (badness 10000) in paragraph at lines 467--468
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 460--461
+Underfull \hbox (badness 10000) in paragraph at lines 467--468
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 460--461
+Underfull \hbox (badness 10000) in paragraph at lines 467--468
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 460--461
+Underfull \hbox (badness 10000) in paragraph at lines 467--468
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 460--461
+Underfull \hbox (badness 10000) in paragraph at lines 467--468
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 460--461
+Underfull \hbox (badness 10000) in paragraph at lines 467--468
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 460--461
+Underfull \hbox (badness 10000) in paragraph at lines 467--468
 
  []
 
-[9] [10] (./doc.aux) ) 
+
+Underfull \hbox (badness 10000) in paragraph at lines 467--468
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 467--468
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 467--468
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 467--468
+
+ []
+
+[10] [11] (.//doc.aux) ) 
 Here is how much of TeX's memory you used:
- 4865 strings out of 492639
- 66168 string characters out of 6135498
- 160234 words of memory out of 5000000
+ 4866 strings out of 492639
+ 66189 string characters out of 6135498
+ 163235 words of memory out of 5000000
  8662 multiletter control sequences out of 15000+600000
  21972 words of font info for 50 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 37i,7n,32p,1410b,1024s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 37i,7n,32p,1409b,1577s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}</usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfbx1728.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfbx2074.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfbx2488.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfrm1440.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfsl1200.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfti1200.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sftt1000.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sftt1200.pfb>
-Output written on doc.pdf (11 pages, 292084 bytes).
+Output written on .//doc.pdf (12 pages, 292571 bytes).
 PDF statistics:
- 93 PDF objects out of 1000 (max. 8388607)
- 66 compressed objects within 1 object stream
+ 96 PDF objects out of 1000 (max. 8388607)
+ 68 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

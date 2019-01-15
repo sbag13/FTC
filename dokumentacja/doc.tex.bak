@@ -43,26 +43,23 @@
     \maketitle
     \vfill
     % \renewcommand{\chapter}[2]{}
-    % \begin{center}
-    %     \Large \bfseries\contentsname
-    % \end{center}
-    % \tableofcontents
+    \begin{center}
+        \Large \bfseries\contentsname
+    \end{center}
+    \tableofcontents
     \vfill
 \end{titlepage}    
 
 % \chapter{Wstęp}
 % \addcontentsline{toc}{chapter}{Wstęp}
 
-\tableofcontents
-
-\newpage
 \section{Wstęp}
 
 \subsection{Cel projektu}
 
 Wykorzystywanie nawet najlepszego oprogramowania, w którym zaimplementowano najbardziej zaawansowane technologie i najbezpieczniejsze algorytmy, nie jest w stanie zapewnić systemowi 100-procentowego bezpieczeństwa. Dzieje się tak dlatego, że w rozwoju i implementacji oprogramowania uczestniczą ludzie, którzy z natury mają skłonność do popełniania błędów. W rezultacie, ludzie, którzy są częścią systemu, zawsze będą najsłabszym ogniwem bezpieczeństwa systemu. Czynnik ludzki jest głównym powodem, dla którego udaje się tak wiele ataków na komputery i systemy.
 
-Celem tego projektu było zbadanie wpływu czynnika ludzkiego na różne implementacje tej samej specyfikacji. W jego ramach stworzono dwie niezależne implementacje oprogramowania z jednolitym, ustandaryzowanym interfejsem, sposobem testowania oraz wymaganiami funkcjonalnymi. Na ich podstawie wyciągnięto wnioski na temat tego, jak indywidualne podejście, interpretacja dostarczonych wymagań oraz wybór technologii wpływają na finalną wersję wytworzonego produktu.
+Celem tego projektu było zbadanie wpływu czynnika ludzkiego na różne implementacje tej samej specyfikacji. W jego ramach stworzono dwie niezależne implementacje oprogramowania z jednolitym, ustandaryzowanym interfejsemm, sposobem testowania oraz wymaganiami funkcjonalnymi. Na ich podstawie wyciągnięto wnioski na temat tego, jak indywidualne podejście, interpretacja dostarczonych wymagań oraz wybór technologii wpływają na finalną wersję wytworzonego produktu.
 
 \subsection{Realizacja}
 
@@ -74,10 +71,10 @@ Na potrzeby projektu zdefiniowano specyfikację interfejsu serwisu uwzględniaj�
 	\item Logowanie użytkowników
 	\item Tworzenie ofert typu:
     \begin{itemize}
-		\item aukcja: ``auction''
+		\item akucja: ``auction''
 		\item teraz: ``buynow''
     \end{itemize}
-	\item Kupowanie / licytacja towarów (ofert) przez użytkowników
+	\item Kupowanie / licytacja twoarów (ofert) przez użytkowników
     \item Przeglądanie ofert z filtracją
     \begin{itemize}
         \item opis zawiera tekst zadany tekst
@@ -89,7 +86,7 @@ Na potrzeby projektu zdefiniowano specyfikację interfejsu serwisu uwzględniaj�
     \item Obsługa własnych ofert:
     \begin{itemize}
 		\item modyfikacja ofert
-        \item usuwanie ofert
+        \item usówanie ofert
     \end{itemize}
 \end{itemize}
 
@@ -101,7 +98,7 @@ Specyfikacja zawiera opis wszystkich wymaganych endpointów (dodatek \ref{app:en
     \item oczekiwane statusy odpowiedzi w zależności od warunków
 \end{itemize}
 
-Dokładne wymagania dla konkretnych funkcji serwisu zostaną opisane w dalszej części dokumentacji. Porównane zostaną obydwie implementacje pod kątem zgodności z dokumentacją oraz ze sobą wzajemnie.
+Dokładne wymagania dla konkretnych funkcji serwizu zostaną opisane w dalszej części dokumentacji. Porównane zostaną obydwie implementacjie pod kątem zgodności z dokumentacjią oraz ze sobą wzajemnie.
 
 \section{Porównanie implementacji}
 
@@ -111,16 +108,16 @@ Podstawową różnicą między dwiema powstałymi implementacjami jest użyta te
 
 \subsubsection{Implementacja 1}
 
-Do pierwszej implementacji postanowiono użyć języka programowania Rust \cite{rust}. Jest to kompilowany język stworzony z myślą o tworzeniu stabilnych, bezpiecznych, i przede wszystkim wydajnych aplikacji.
+Do pierwszej implementacji postanowiono użyć języka programowania Rust \cite{rust}. Jest to kompilowalny język stworzony z myślą o tworzeniu stabilnych, bezpiecznych, i przede wszystkim wydajnych aplikacji.
 
-Do stworzenia aplikacji, korzystającej z protokołu HTTP, skorzystano z biblioteki Rocket \cite{rocket}. Jest to bardzo wygodne rozwiązanie. W połączeniu z menedżerem pakietów Cargo, pierwszą najprostszą aplikację można stworzyć w kilka minut. Rozszerzanie jej o kolejne funkcjonalności również nie przysparza żadnych problemów. Jednocześnie zapewnia ona bezpieczeństwo danej aplikacji, elastyczność a przed wszystkim stabilność (m. in. poprzez ``type safety''). W połączeniu z ogólnymi cechami języka Rust daje nam to duże prawdopodobieństwo, że skompilowany program, będzie działał bez problemów przez długi czas.
+Do stworzenia aplikacji, korzystającej z protokołu HTTP, skorzystano z biblioteki Rocket \cite{rocket}. Jest to bardzo wygodne rozwiązanie. W połączeniu z menedżerem pakietów Cargo, pierwszą najprostszą aplikację można stworzyć w kilka minut. Rozszerzanie jej o kolejne funkcjonalności również nie przyspaża żadnych problemów. Jednocześnie zapewnia ona bezpieczeństwo danej aplikacji, elastyczność a przedwszystkim stabilność (m. in. poprzez ``type safety''). W połączeniu z ogólnymi cechami języka Rust daje nam to duże prawdopodobieństwo, że skompilowany program, będzie działał bez problemów przez długi czas.
 
 Kod źródłowy można znaleźć pod poniższym linkiem:\\
 \centerline{\url{https://github.com/sbag13/FTC/tree/master/baginski}}
 
 \subsubsection{Implementacja 2}
 
-W drugiej implementacji postanowiono wykorzystać język Python. W języku tym dostępnych jest kilka frame-worków pozwalających na stworzenie aplikacji webowej, są to między innymi:
+W drógiej implementacji postanowiono wykorzystać język Python. W języku tym dostępnych jest kilka frameworków pozwalających na stworzenie aplikacji webowej, są to między innymi:
 \begin{itemize}
     \item Tornado
     \item Flask
@@ -132,10 +129,10 @@ Na potrzeby projektu zdecydowano się wykorzystać framework Django, który opie
 \subsection{Rejestracja} \label{sec:rejestracja}
 
 Mogłoby się wydawać, że tak prosty \textsl{endpoint} jak rejestracja nie powinien spowodować dużych rozbieżności. Niemniej jednak niedociągnięcia specyfikacji pozostawiają pole do różnych interpretacji.\\
-Specyfikacja określała, że do rejestracji użytkownika potrzebne jest wysłanie zapytania POST które w swoim ciele zawiera strukturę JSON z dwoma polami: "mail" oraz "password". Wartość pola "mail" musi być oczywiście niepowtarzalna. Istniej zatem możliwość aby użyć jej jako identyfikatora danego użytkownika, zarówno w bazie danych jak i w aplikacji. Postanowiono tak zrobić w implementacji 1., gdzie mail jest kluczem pierwotnym dla użytkownika. W implementacji 2. identyfikatorem użytkownika jest domyślnie klucz <id: int>, na adres email narzucono jedynie warunek jego unikalności. \\
-W implementacji 2. natknięto się na istotny problem. Framework Django dostarcza domyślną obsługę modelu użytkownika. Problem polega na tym, że zdefiniowany specyfikacji sposób reprezentacji użytkownika wymagał wprowadzenia bardzo wielu czasochłonnych zmian. Samo wprowadzenie niestandardowego modelu nie jest skomplikowane, ale dostosowanie pozostałych gotowych wtyczek, które tego modelu używają już tak. Problem zostanie opisany dalej w sekcji \ref{sec:logowanie}. We frameworku Django dostępna jest klasa AbstractUser którą można wykorzystać w celu zdefiniowania niestandardowego użytkownika. Podczas rejestracji należało też nadpisać zachowanie się serwera. Domyślnie rejestracja wymagała wysłania zapytania POST ze strukturą JSON z następującymi polami: "username", "email", "password1" oraz "password2". Wynika stąd wniosek, że specyfikacja zniosła domyślne zabezpieczenie obecne w wielu serwisach, które polega na dwukrotnym podaniu jednakowego hasła w celu uniknięcia błędów podczas jego wpisywania. W naszych implementacjach wysłanie zapytania z niezamierzenie błędnym hasłem spowoduje, że użytkownik nie zostanie o tym fakcie poinformowany i nie będzie w stanie zalogować się na swoje konto. Specyfikacja nie zakładała wprowadzenia mechanizmu zmiany haseł użytkowników. \\
-Następnie należy rozpatrzyć przypadek, którego specyfikacja nie określa jednoznacznie. Gdy nie uda się poprawnie zinterpretować przesłanych danych jako JSON, bibliotek Rocket obsłuży taki przypadek wysyłając status 422 (Unprocessable Entity). W implementacji 2, serwer Django zwraca kod 415 wraz z informacją: \textit{'Unsupported media type "text/plain" in request.'} jeśli podano zły nagłówek Content-Type. Jeśli nagłówek jest poprawny, czyli ma wartość "application/json", to kod odpowiedzi jest zgodny z wymienionym w specyfikacji kodem 400 (Bad Request).  \\
-Wszystkie wymienione wyżej kody odpowiedzi dla zaistniałej sytuacji są prawidłowe, ponieważ ich interpretacja jest, jak w przypadku wielu innych kodów odpowiedz HTTP, kwestią subiektywną i silnie zależy od indywidualnej interpretacji. Z tego powodu projektując system należy zwrócić szczególną uwagę na zdefiniowanie zachowania Web API dla wszystkich potencjalnych sytuacji, zwłaszcza, jeśli bazując na kodzie odpowiedzi aplikacja wykorzystująca dane API będzie podejmowała konkretne działania. \\
+Specyfikacja określała, że do rejestracji użytkownika potrzebne jest wysłanie zapytania POST które w swoim ciele zawiera strukturę JSON z dwoma polami: "mail" oraz "password". Wartość pola "mail" musi być oczywiście niepowtarzalna. Istniej zatem możliwość aby użyć jej jako identfikatora danego użytkownika, zarówno w bazie danych jak i w aplikacji. Postanowiono tak zrobić w implementacji 1., gdzie mail jest kluczem pierwotnym dla użytkownika. W implementacji 2. identyfikatorem użytkownika jest dymyśnie klucz <id: int>, na adres email narzucono jedynie warunek jego unikalności. \\
+W implementacji 2. natknięto się na istotny problem. Framework Django dostarcza domyślną obsługę modelu użytkownika. Problem polega na tym, że zdefiniowany specyfikacji sposób reprezentacji użytkownika wymagał wprowadzenia bardzo wielu czasochłonnych zmian. Samo wprowadzenie niestandardowego modelu nie jest skomplikowane, ale dostosowanie pozostałych gotowych wteczek, które tego modelu używają już tak. Problem zostanie opisany dalej w sekcji \ref{sec:logowanie}. We frameworku Django dostępna jest klasa AbstractUser którą można wykorzystać w celu zdefiniowania niestandardowego użytkownika. Podczas rejestracji należało też nadpisać zachowanie się serwera. Domyślnie rejestracja wymagała wysłania zapytania POST ze strukturą JSON z następującymi polami: "username", "email", "password1" oraz "password2". Wynika z tąd wniosek, że specyfikacja zniosła domyślne zabezpieczenie obecne w wielu serwiasch, które polega na dwukrotnym podaniu jednakowego hasła w celu uniknięcia błędów podczas jego wpisywania. W naszych implementacjach wysłanie zapytania z niezamierzenie błędnym hasłem spowoduje, że użytkownik nie zostanie o tym fakcie poinformowany i nie będzie w stanie zalogować się na swoje konto. Specyfikacja nie zakładała wprowadzenia mechanizmu zmiany haseł użytkowników. \\
+Następnie należy rozpatrzyć przypadek, którego specyfikacja nie określa jednoznacznie. Gdy nie uda się poprawnie zinterpretować przesłanych danych jako JSON, bibliotek Rocket obsłuży taki przypadek wysyłając status 422 (Unprocessable Entity). W implementacji 2, serwer django zwraca kod 415 wraz z informacją: \textit{'Unsupported media type "text/plain" in request.'} jeśli podano zły nagłówek Content-Type. Jeśli nagłówek jest poprawny, czyli ma wartość "application/json", to kod odpowiedzi jest zgodny z wymienionym w specyfikacji kodem 400 (Bad Request).  \\
+Wszystkie wymienione wyżej kody odpowiedzi dla zaistniałej sytaucji są prawidłowe, ponieważ ich interpretacja jest, jak w przypadku wielu innych kodów odpowiedz HTTP, kwestią subiektywną i silnie zależy od indywidualnej interpretacji. Z tego powodu projektując system należy zwrócić szczególną uwagę na zdefiniowanie zachowania Web API dla wszystkich potencjalnych sytuacji, zwłacza, jeśli bazując na kodzie odpowiedzi aplikacja wykorzystująca dane API będzie podejmowała konkretne działania. \\
 Specyfikacja określa co powinno się stać gdy zapytanie zostanie wysłane poprawnie za pomocą innej niż POST metody HTTP. W takim przypadku powinien zostać zwrócony status 405 (Method Not Allowed). W przypadku implementacji 1. skutkuje to bardzo dużym nakładem mało istotnej pracy. Rocket, gdy nie uda mu się dopasować żadnego istniejącego endpointu, wysyła domyślnie status 404 (Not Found). Dzieje się tak również w przypadku gdy nie znajdzie odpowiedniej metody HTTP, nawet jeśli reszta parametrów się zgadza. Aby otrzymać zgodność ze specyfikacją należałoby więc utworzyć endpointy dla wszystkich możliwych metod protokołu HTTP, których jedyną odpowiedzialnością byłoby wysłanie błędu o statusie 405. W implementacji 1. zdecydowano się nadpisać tylko metody get, put oraz delete.
 W implementacji 2. w przypadku wykorzystania generycznych widoków problem jest rozwiązany automatycznie. Wysłanie zapytania z niezdefiniowaną metodą HTTP dla zarejestrowanego adresu url zawsze skutkuje zwróceniem statusu 405, chyba, że zachowanie to zastanie świadomie nadpisane.
 
@@ -143,17 +140,17 @@ W implementacji 2. w przypadku wykorzystania generycznych widoków problem jest 
 
 Przy implementacji logowania napotkano problemy opisane w sekcji \ref{sec:rejestracja}. Podczas tworzenia specyfikacji postanowiono, że do uwierzytelniania będą wykorzystywane tokeny JWT (JSON Web Token) \cite{jwt}. Jest to jednak elastyczna struktura i jej elementy nie zostały jednoznacznie określone. \\
 W przypadku implementacji 1. nagłówek JWT został wygenerowany w sposób domyślny, który używa algorytmu HS256, a ładunkiem tokena zostało tylko pole mail danego użytkownika. W żaden sposób nie został określony czas ważności sesji. Rażącym niedopatrzeniem podczas tworzenia dokumentacji jest także fakt, że nie pomyślano o funkcji wylogowywania. Aby usunąć sesję należy więc zalogować się na konto innego użytkownika albo usunąć pliki ``cookies'' z przeglądarki.  \\
-W przypadku implementacji 2. skorzystano z zestawu gotowych aplikacji, m. in.:
+W przypadku implementacji 2. skorzystano z zestawu gotowych aplikacji które zostały podpięte do projektu między innymi: 
 \begin{itemize}
     \item rest\_framework\_jwt.authentication.JSONWebTokenAuthentication
     \item allauth.account
 \end{itemize}
-Użyto także innych aplikacji, od których powyższe są zależne. Gotowe rozwiązanie dostarcza mechanizmy do generacji tokenów (logowania) jak i też wylogowywania. Tutaj pojawił się wspomniany w poprzedniej sekcji \ref{sec:rejestracja} problem z modelem użytkownika. Gotowe aplikacje posiadają wiele ustawień, które należało odpowiednio sparametryzować, by autentyfikacja odbywała się za pomocą pola "mail". Domyślnie wykorzystywanym polem jest pole "username", które pierwotnie zostało całkowicie usunięte. Aplikacje o których mowa, pomimo że potrafią za pomocą odpowiednich ustawień zmienić metodę autentyfikacji na pole "mail", do prawidłowego działania wciąż potrzebowały pola "username". Znalezienie problemu i jego rozwiązania było najcięższym problemem w implementacji 2. Projekt był przepisywany trzykrotnie, aby sprostać postawionym w specyfikacji wymaganiom. Finalnie pole username jest sztucznie dodawane do modelu użytkownika, ale zawsze jest ono puste i nigdzie nie jest wykorzystywane.  \\
-W implementacji 2. nie przewidziano umieszczania tokena JWT w plikach ``cookies'' przeglądarki, ponieważ wszystkie testy wykonywane były z poziomu frameworku pytest ustawiając nagłówek "Authorization".
+Oraz inne aplikacje od których powyższe są zależne. Gotowe rozwiązanie dostarcza mechanizmy do generacji tokenów (logowania) jak i też wylogowywania. Tutaj pojawił się wspomniany w poprzedniej sekcji \ref{sec:rejestracja} problem z modelem użytkownika. Gotowe aplikacjie posiadają wiele ustawień, które należało odpowiednio sparametryzować, by autentykacja odbywała się za pomocą pola "mail". Domyślnie wykorzystywanym polem jest pole "username", które pierwotnie zostało całkowicie usunięte. Aplikacje o których mowa, pomimo że potrafią za pomocą odpowiednich ustawień zmienić motodę autentykacji na pole "mail", do prawidłowego działania wciąż potrzebowały pola "username". Znalezienie problemu i jego rozwiązania było najcięższym problemem w implementacji 2. Projekt był przepisywany trzykrotnie, aby sprostać postawionym w specyfikacji wymaganiom. Finalnie pole username jest sztucznie dodawane do modelu użytkownika, ale zawsze jest ono puste i nigdzie nie jest wykorzystywane.  \\
+W implementacji 2. nie przewidziano umieszczania tokena JWT w plikach ``cookies'' przeglądarki, ponieważ wszystkie testy wykonywane były z poziomu frameworku pytest, lub za pomocą narzędzia Postman, ustawiająć nagłówek "Authorization".
 
 \subsection{Tworzenie ofert}
 
-W specyfikacji zdefiniowane zostały dwa typy ofert: aukcja ("auction") oraz kup teraz ("buynow"). Wspólny jest dla nich adres endpointu "/offers". Według specyfikacji zapytanie wysłane pod ten adres metodą GET powinno zwrócić filtrowaną listę ofert (dokładny opis w sekcji \ref{sec:search}). Zapytanie metodą POST z odpowiednim dla danego typu oferty ciałem powinno skutkować utworzeniem nowej oferty i zwrócenie kodu odpowiedzi 201. \\
+W specyfikacji zdefiniowane zostały dwa typy ofert: aukcja ("auction") oraz kup teraz ("buynow"). Wspólny jest dla nich adres endpointu "/offers". Według specyfikacji zapytanie wysłane pod ten adres metodą GET powinno zwrócić filtrowaną listę ofert (dokłady opis w sekcji \ref{sec:search}). Zapytanie metodą POST z odpowiednim dla danego typu oferty ciałem powinno skutkować utworzeniem nowej oferty i zwrócenie kodu odopowiedzi 201. \\
 
 Przykładowe dane do utworzenia oferty typu "kup teraz":
 \begin{lstlisting}
@@ -175,12 +172,12 @@ Przykładowe dane potrzebne do utworzenia oferty typu "aukcja":
 }
 \end{lstlisting}
 
-W implementacji 1. parametr price został uznany za obligatoryjny. Pole to oznacza cenę wyjściową licytacji lub cenę przedmiotu w przypadku oferty typu ``buynow''. W implementacji 2. pole "price" podczas tworzenia oferty jest opcjonalne. Jego podanie skutkuje ustawieniem pola "last\_bid". Przechowywane i zwracane dane szczegółowe konkretnych ofert zostały opisane w sekcji \ref{sec:details}. W specyfikacji nie napisano wprost, ale wynika to z listy testów akceptacyjnych, że zarówno pole "price" jaki i "amount" nie może być ujemne. W implementacji 2. zdroworozsądkowo założono też, że "amount" - czyli dostępna liczba sztuk towaru, musi być liczbą naturalną (typu integer). W implementacji 1. takich założeń nie poczyniono. \\
+W implementacji 1. parametr price został uznany za obligatoryjny. Pole to oznacza cenę wyjściową licytacji lub cenę przedmiotu w przypadku oferty typu ``buynow''. W implementacji 2. pole "price" podczas tworzenia oferty jest opcjonalne. Jego podanie skutkuje ustawieniem pola "last\_bid". Przechowywane i zwracane dane szczegółowe konkretnych ofert zostały opisane w sekcji \ref{sec:details}. W specyfikacij nie napisano wprost, ale wynika to z listy testów akceptacyjnych, że zarówno pole "price" jaki i "amount" nie może być ujemne. W implementacji 2. zdroworozsądkowo założono też, że "amount" - czyli dostępna liczba sztuk towaru, musi być liczbą naturalną (typu integer). W implementacji 1. takich założeń nie poczyniono. \\
 
-Specyfikacja określa ponadto, że próba utworzenia nowej oferty przez nie zalogowanego użytkownika powinna się nie powieść, a odpowiedź powinna zwracać status 401 - Unauthorized. \\
+Specyfikacja określa pondato, że próba utworzenia nowej oferty przez nie zalogowanego użytkownika powinna się nie powieść, a odpowiedć powinna zwracać status 401 - Unauthorized. \\
 W implementacji 2. została ustawiona domyślna klasa uprawniań \newline \textit{rest\_framework.permissions.IsAuthenticated}. Dzięki temu automatycznie wszystkie operacje wymagają uwierzytelnienia, a wyjątkowe uprawnienia zostały nadane osobno dla poszczególnych operacji, które tego wymagały. Przykładem są zapytania o listę lub szczegóły ofert. Dla tych operacji zostały ustawione uprawnienia \textit{IsAuthenticatedOrReadOnly}, które pozwalają na swobodny odczyt danych, ale zabraniają ich modyfikacji nie zalogowanym użytkownikom. W implementacji 1. uprawnienia są sprawdzane wyłącznie w przypadkach opisywanych przez specyfikację i nie ma ustawionych żadnych domyślnych zachowań.\\
 
-W specyfikacji wymieniono przypadek zwrócenia kodu 403 - Forbidden - kiedy użytkownik jest zalogowany na nieuprawnione konto. W obu implementacjach taki status nie jest nigdzie zwracany, ponieważ specyfikacja nie określiła jednoznacznie co ten fakt oznacza. W systemie nie przewidziano żadnych ról z niestandardowymi uprawnieniami dla poszczególnych użytkowników (grup użytkowników).\\
+W specyfikacji wymieniono przypadek zwrócenia kodu 403 - Forbidden - kiedy użytkownik jest zalogowany na nieuprawnione konto. W obu implementacjach taki status nie jest nigdzie zwracany, ponieważ specyfikacjia nie określiła jednoznacznie co ten fakt oznacza. W systemie nie przewidziano żadnych ról z niestandardowymi uprawnieniami dla poszczególnych użytkowników (grup użytkowników).\\
 
 Specyfikacja określa kod odpowiedzi 400 (Bad Request) i podaje przykłady:
 \begin{itemize}
@@ -193,13 +190,13 @@ W obu implementacjach niepoprawny JSON jest obsługiwany automatycznie, jak zost
 
 W obydwu implementacjach nie stwierdzono żadnych rozbieżności w stosunku do specyfikacji dla endpointu \texttt{/offers/{id}/buy}. \\
 W przypadku implementacji 1. informacje o dokonanych zakupach oraz o licytacjach są przechowywane w jednej tabeli bazy danych \texttt{transactions}. Każda transakcja posiada pola: \texttt{id}, \texttt{offer\_id}(klucz obcy do oferty), \texttt{buyer}(klucz obcy do użytkownika), \texttt{amount}(opcjonalne pole dla offert typu ``buynow''), \texttt{bid}(opcjonalne pole dla ofert typu ``auction'').  \\
-W implementacji 2. pominięto mechanizm przechowywania informacji o dokonanych transakcjach - potraktowano go jako wykraczający poza wymagania specyfikacji. W implementacji zadbano o zabezpieczenia wynikające o założonych testów akceptacyjnych. Zabronione jest kupowanie przedmiotów w ofertach, których zalogowany użytkownik jest właścicielem. Nie jest też możliwe ponowne licytowanie aukcji, którą dany użytkownik aktualnie wygrywa.
+W implementacji 2. pominięto mechanizm przechowywania informacji o dokonanych transakcjach - potraktowano go jako wykraczający poza wymagania specyfikacji. W implementacji zadbano o zabezpieczenia wynikające o założonych testów akceptacyjnych. Zabronione jest kupowanie przedmiotów w ofertach, których zalogowany użytkownik jest włacicielem. Nie jest też możliwe ponowne licytowanie aukcji, którą dany użytkownik aktualnie wygrywa.
 
 
 
 \subsection{Przeglądanie ofert}
 \subsubsection{Lista ofert wraz z filtrowaniem}\label{sec:search}
-W odpowiedzi na zapytanie GET \texttt{/offers} serwer powinien zwracać listę ofert dla każdego użytkownika - nie zależnie od tego, czy jest on zalogowany czy nie. Takie wymagania zostały zdefiniowane w testach akceptacyjnych, ze specyfikacji nie wynika to wprost. Specyfikacja nie określa też w żaden sposób formy w jakiej ma być zwracana lista ofert. Jedyna klarowna informacja na ten temat to założenie, że jeśli użyte zostaną filtry i żadna z ofert nie będzie spełniała wymagań, to zwrócona zostanie pusta lista \texttt{"\lbrack\rbrack"}. \\
+W odpowiedzi na zapytanie GET \texttt{/offers} serwer powinien zwracać listę ofert dla każdego użytkownika - nie zależnie od tego, czy jest on zalogowany czy nie. Takie wymagania zostały zdefiniowane w testach akceptacujnych, ze specyfikacji nie wynika to wprost. Specyfikacja nie określa też w żaden sposób formy w jakiej ma być zwracana lista ofert. Jedyna klarowna informacja na ten temat to założenie, że jeśli użyte zostaną filtry i żadna z ofert nie będzie spełniała wymagań, to zwrócona zostanie pusta lista \texttt{"\lbrack\rbrack"}. \\
 
 W implementacji 2. zastosowano dziedziczenie klas ofert "aukcji" i "kup teraz" po wspólnej klasie oferty. Klasa ta zawiera wspólne pola takie jak id. operacji, opis "description" oraz pole zawierające informację o id właściciela. Do zwracania listy wykorzystano serializator, który zwraca jedynie id oferty, jej opis oraz typ. Założono, że informacje szczegółowe będą dostępne za pośrednictwem endopintu "/offers/<offer\_id>", opisanego w sekcji \ref{sec:details}. Przykładowa odpowiedź wygląda więc następująco:
 \begin{lstlisting}
@@ -228,12 +225,12 @@ Specyfikacja definiuje możliwe do wykorzystania w adresie url filtry:
     \item "created\_by\_me" - jeśli ustawiony, zapytanie powinno zwracać tylko oferty których zalogowany użytkownik jest właścicielem
 \end{itemize}
 
-W implementacji 1. napotkano nieprzewidziane komplikacje spowodowane faktem, że słowo ``type'' jest słowem kluczowym języka Rust. Niemożliwym było więc skorzystanie z automatycznego przypisywania parametrów do zmiennych, jako że nie da się zadeklarować zmiennej \texttt{type}. Rozwiązanie w tym przypadku wymagało obudowania wartości w formularz. Opracowanie rozwiązania pochłonęło znaczną ilość czasu.
+W implementacji 1. napotkano nieprzwidziane komplikacje spowodowane faktem, że słowo ``type'' jest słowem kluczowym języka Rust. Niemożliwym było więc skorzystanie z automatycznego przypisywania parametrów do zmiennych, jako że nie da się zadeklarować zmiennej \texttt{type}. Rozwiązanie w tym przypadku wymagało obudowania wartości w formularz. Opracowanie rozwiązania pochłoneło znaczną ilość czasu.
 
-W implementacji 2. wykorzystano obiekty Django Q (querry) \cite{django_q}, które pozwalają na wygodne budowanie zapytania wykorzystanego do filtracji listy zwracanej przez bazę danych. Obiekty te pozwalają na elastyczne łączenie warunków, dzięki czemu złożony filtr jest aplikowany tylko raz. \\
+W implementacji 2. wykorzystano obiekty Django Q (querry) \cite{django_q}, które pozwalają na wygodne budowanie zapytania wykorzystanego do filtracji listy zwracanej przez bazę danych. Obiekty te pozwalają na elastyczne łączenie warunków, dzięki czemu złożony filtr jest aplikowany wylko raz. \\
 
 Specyfikacja nie podaje dosłownie jaki warunek powinien być sprawdzany dla filtrów "price\_min" i "price\_max", to znaczy czy ceny mają być większe (mniejsze), czy większe (mniejsze) lub równe. \\
-Biorąc pod uwagę, że nazwy filtrów zawierają w sobie "max" w implementacji 2. zdecydowano się na warunek większy lub równy (mniejszy lub równy). Inaczej jest w przypadku implementacji 1., gdzie warunki nie zawierają w sobie równości. \\
+Boiorąc pod uwagę, że nazwy filtrów zawierają w sobie "max" w implementaji 2. zdecydowano się na warunek większy lub równy (mniejszy lub równy). Inaczej jest w przypadku implementacji 1., gdzie warunki nie zawierają w sobie równości. \\
 
 \subsubsection{Szczegóły oferty}\label{sec:details}
 
@@ -262,18 +259,18 @@ Dla oferty typu "aukcja" specyfikacja podaje wymagane pola:
 \begin{itemize}
     \item "type" - powinien być równy "auction"
     \item "description" - opis oferty
-    \item "status" - określa, czy oferta jest aktualna: "active" lub "expired"
+    \item "staus" - określa, czy oferta jest akutalna: "active" lub "expired"
     \item "last\_bid" - ostatnio licytowana kwota
     \item "customer\_id" - Id użytkownika, który aktualnie wykrywa daną licytację
     \item "expiration\_ts" - timestamp, który określa termin zakończenia aukcji
 \end{itemize}
 
-W implementacji 2. odpowiedź tak samo jak dla oferty typu "kup teraz" jest uzupełniana o "id" konkretnej oferty, co również nie ma miejsca w przypadku implementacji 1. W związku z niejednoznacznie określoną operacją tworzenia oferty (specyfikacja podaje pole "price" które odpowiada cenie wyjściowej aukcji") w implementacji 2. przyjęto, że jeśli podana zostanie cena wyjściowa, to zostanie ona zwracana jako pole "last\_bid". Pole "customer\_id" pozostaje wtedy puste (null). W implementacji 1. uznano pole ``price'' za obligatoryjne, z racji na następujący znak '*' po nazwie, więc pole ``last\_bid'' zawsze zwróci jakąś wartość jeśli oferta istnieje. Natomiast pole ``customer\_id'' będzie pustym ciągiem znaków(""), jeśli nikt jeszcze nie licytował danego przedmiotu. Jest to następstwem tego, że w implementacji 1. identyfikatorem użytkownika jest jego mail, także w bazie danych.\\
-\\Implementacja 1:
+W implementacji 2. odpowiedź tak samo jak dla oferty typu "kup teraz" jest uzupełniana o "id" konkretnej oferty, co również nie ma miejsca w przypadku implementacji 1. W związku z niejednoznacznie określoną operacją tworzenia oferty (specyfikacja podaje pole "price" które odpowiada cenie wyjściowej aukcji") w implementacji 2. przyjęto, że jeśli podana zostanie cena wyjściowa, to zostanie ona zwracana jako pole "last\_bid". Pole "customer\_id" pozostaje wtedy puste (null). W implemenacji 1. uznano pole ``price'' za obligatoryjne, z racji na następujący znak '*' po nazwie, więc pole ``last\_bid'' zawsze zwróci jakąś wartość jeśli oferta istnieje. Natomiast pole ``customer\_id'' będzie pustym ciągiem znaków(""), jeśli nikt jeszcze nie licytował danego przedmiotu. Jest to następstwem tego, że w implementacji 1. identyfikatorem użytkownika jest jego mail, także w bazie danych.\\
+Implementacja 1:
 \begin{lstlisting}
 {
     "type":"auction",
-    "description":"dsc",
+    "description":"taktakta",
     "status":"expired",
     "last_bid":32.5,
     "customer_id":"",
@@ -293,14 +290,14 @@ Implementacja 2:
 }
 \end{lstlisting}
 
-Na powyższej przykładowej odpowiedzi widać ponadto, że popełniony został błąd w nazwie pola "expiration\_ts". Błąd ten wynika z przeoczenia, to samo pole w momencie tworzenia aukcji nazywało się "date". W implementacji 2. pole to pełni tą samą zakładaną funkcję, ale jest nie zgodne ze specyfikacją. \\
+Na powyższej przykładowej odpowiedzi widać ponadto, że popełniony został błąd w nazwie pola "expiration\_ts". Błąd ten wynika z przeoczenia, to samo pole w momencie tworzenia aukcji nazywało się "date". W implemenacji 2. pole to pełni tą samą zakładaną funkcję, ale jest nie zgodne ze specyfikacją. \\
 Na tym błędzie można wysnuć kolejny istotny wniosek. Tworząc specyfikację należy zwrócić uwagę na konflikty w nazwach pól. Przemienne nazywanie tych samych danych w różny sposób może prowadzić (i na ogół prowadzą) do niespójności w bazie danych oraz w wysyłanych informacjach. Ma to szczególne znaczenie w rozbudowanych systemach, gdzie w firmie wydzielone są zespoły zajmujące się różnymi odseparowanymi częściami systemu, które komunikują się ze sobą za pomocą interfejsu http (lub innego). Bardzo często dochodzi do sytuacji, że to samo określenie w innym dziale oznacza zupełnie inne operacje / dane. Takie sytuacje prowadzą do tego, że błędy są wychwytywane dopiero w późnym etapie projektu, w momencie integracji poszczególnych części systemu.
 
 Metody PATCH i DELETE dla \texttt{/offers/\{id\}} nie przysporzyły żadnych problemów i działają w sposób intuicyjny, zgodny z dokumentacją i przypadkami testowymi. Niemniej jednak specyfikacja nie precyzuje, że tylko właściciel oferty może ją zmieniać, ale można to wywnioskować z opisu testów systemu.
 
 \section{Podsumowanie}
 
-Celem projektu było pokazanie jak bardzo różne mogą powstać implementacje systemu opartego o tę samą specyfikację. Jak widać duże rozbieżności mogą powstać nawet w przypadku prostego systemu, składającego się z kilku funkcji. Główną przyczyną jest oczywiście czynnik ludzki. Na przykład preferencje programistów oraz wybór technologi prowadzi do sytuacji, w których korzysta się z gotowych rozwiązań dostarczanych przez frameworki. Może to skutkować między innymi różnymi zachowaniami w sytuacjach nie przewidzianych przez specyfikację, bądź nawet zmianą funkcji z uwagi na alternatywny nakład pracy. Opisany efekt jest dodatkowo potęgowany niską jakością wykonanej specyfikacji systemu. Na jej stworzenie poświęcono zbyt mało czasu. Nie przewidziano wielu problematycznych przypadków, a nawet zabrakło określenia tak podstawowych spraw jak na przykład wartości graniczne podczas filtrowania. Błędy koncepcyjne i niedociągnięcia, które powstały na pierwszym etapie mają tym większe odzwierciedlenie w powstałych różnicach między produktami końcowymi, które są zaskakująco wydatne.
+Celem projektu było pokazanie jak bardzo różne mogą powstać implementacje systemu opartego o tę samą specyfikację. Jak widać duże rozbieżności mogą powstać nawet w przypadku prostego systemu, składającego się z kilku funkcji. Główną przyczyną jest oczywiście czynnik ludzki. Na przykład preferencje programistów oraz wybór technologi prowadzi do sytuacji, w których korzysta się z gotowych rozwiązań dostarczanych przez frameworki. Może to skutkować między innymi różnymi zachowaniami w sytuacjach nie przewidzianych przez specyfikację, bądź nawet zmianą funkcji z uwagi na alternatywny nakład pracy. Opisany efekt jest dodatkowo potęgowany niską jakością wykonanej specyfikacji systemu. Na jej stworzenie poświęcono zbyt mało czasu. Nie przewidziano wielu problematycznych przypadków, a nawet zabrakło określenia tak podstawowych spraw jak na przykład wartości graniczne podczas filtrowania. Błędy koncepcyjne i niedociągnięcia, które powstały na pierwszym etapie mają tym większe odzwierciedlenie w powstałych róznicach między produktami końcowymi, które są zaskakująco wydatne.
 
 \newpage
 
