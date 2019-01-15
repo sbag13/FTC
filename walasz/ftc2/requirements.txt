@@ -1,0 +1,6 @@
+django-rest-auth
+django
+djangorestframework
+django-allauth
+faker
+pytest
